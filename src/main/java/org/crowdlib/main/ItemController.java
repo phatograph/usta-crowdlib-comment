@@ -14,8 +14,8 @@ import javax.ws.rs.core.SecurityContext;
 /**
  * A simple example of a RESTful service.
  */
-@Path("/users")
-public class UserController {
+@Path("/items")
+public class ItemController {
     Gson g = new Gson();
 
     @Context
@@ -28,14 +28,7 @@ public class UserController {
     @GET
     @Produces("application/json")
     public String getAll() {
-        return g.toJson(InMemUser.getAll());
-    }
-
-    @GET
-    @Path("{id}")
-    @Produces("text/plain")
-    public String get(@PathParam("id") String id) {
-        return g.toJson(InMemUser.get(Integer.parseInt(id)));
+        return g.toJson(InMemItem.getAll());
     }
 }
 
