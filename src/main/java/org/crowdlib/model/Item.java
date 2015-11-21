@@ -18,7 +18,7 @@ public interface Item {
     /**
      * Get the owner of this item.
      */
-    User getOwner();
+    User getUser();
 
     /**
      * Set the owner of this item.
@@ -27,4 +27,5 @@ public interface Item {
 
     String getTitle();
     Item setTitle(String title);
+    ArrayList<Comment> getComments();
 }

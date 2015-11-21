@@ -9,5 +9,8 @@ import org.crowdlib.model.User;
 import org.crowdlib.model.inmem.InMemUser;
 
 public class MockUser extends InMemUser {
+    public MockUser() {
+        super("Mock", "User");
+    }
 }
 

@@ -10,16 +10,20 @@ import org.crowdlib.model.Item;
 import org.crowdlib.model.User;
 
 public class InMemUser implements User {
-    private long id = 0;
-    private String name = null;
-    private String surname = null;
-    private String title = null;
+    private long id;
+    private String name;
+    private String surname;
+    private String title;
 
     static int count = 0;
     static ArrayList<User> list = new ArrayList();
 
-    public InMemUser() {
+    public InMemUser(String name, String surname) {
         id = count++;
+        setName(name);
+        setSurname(surname);
+
+        InMemUser.list.add(this);
     }
 
     @Override
@@ -61,22 +65,22 @@ public class InMemUser implements User {
     }
 
     public ArrayList<Item> getItems() {
-        ArrayList<Item> items = new ArrayList<Item>();
-        for (Item i :InMemItem.getAll()) {
-            if (i.getOwner() == this) {
-                items.add(i);
+        ArrayList<Item> results = new ArrayList();
+        for (Item x :InMemItem.getAll()) {
+            if (x.getUser() == this) {
+                results.add(x);
             }
         }
 
-        return items;
+        return results;
     }
 
     // STATIC METHODS
 
     public static User get(long id) {
-        for (User u : list) {
-            if (u.getID() == id) {
-                return u;
+        for (User x : list) {
+            if (x.getID() == id) {
+                return x;
             }
         }
 
@@ -85,10 +89,6 @@ public class InMemUser implements User {
 
     public static ArrayList<User> getAll() {
         return list;
-    }
-
-    public static void add(User user) {
-        list.add(user);
     }
 }
 

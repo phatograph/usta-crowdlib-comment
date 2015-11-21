@@ -5,8 +5,10 @@ import java.net.URI;
 
 import javax.ws.rs.core.UriBuilder;
 
+import org.crowdlib.model.Comment;
 import org.crowdlib.model.Item;
 import org.crowdlib.model.User;
+import org.crowdlib.model.inmem.InMemComment;
 import org.crowdlib.model.inmem.InMemItem;
 import org.crowdlib.model.inmem.InMemUser;
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -44,19 +46,7 @@ public final class Main {
      * main() method starts up Grizzly server, waits for user input, then shuts it down.
      */
     public static void main(final String[] args) throws IOException {
-        User u;
-        u = new InMemUser();
-        u.setName("Phat").setSurname("Wangrungarun");
-        InMemUser.add(u);
-
-        u = new InMemUser();
-        u.setName("Sebastian").setSurname("Duque");
-        InMemUser.add(u);
-
-        Item i;
-        i = new InMemItem("LotR", InMemUser.get(0));
-        InMemItem.add(i);
-
+        bootstrapping();
         final HttpServer httpServer = createServer();
         System.out.println("Starting grizzly2...");
         httpServer.start();
@@ -64,5 +54,15 @@ public final class Main {
                 + "%sapplication.wadl%nHit enter to stop it...", BASE_URI));
         System.in.read();
         httpServer.shutdownNow();
+    }
+
+    static void bootstrapping() {
+        User u1 = new InMemUser("Phat", "Wangrungarun");
+        User u2 = new InMemUser("Sebastian", "Duque");
+
+        Item i = new InMemItem("LotR", u1);
+
+        new InMemComment("Outstanding", u1, i);
+        new InMemComment("Wonderful", u2, i);
     }
 }

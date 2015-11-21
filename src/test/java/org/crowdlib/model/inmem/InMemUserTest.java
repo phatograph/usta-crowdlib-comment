@@ -18,8 +18,6 @@ public class InMemUserTest {
     public void addAndGetItem() {
         Item i1 = new InMemItem("Test 1", mockUser);
         Item i2 = new InMemItem("Test 2", mockUser);
-        InMemItem.add(i1);
-        InMemItem.add(i2);
         assertEquals(2, mockUser.getItems().size());
     }
 }

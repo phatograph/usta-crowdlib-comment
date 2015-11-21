@@ -1,22 +1,25 @@
 package org.crowdlib.model.inmem;
 
+import org.crowdlib.model.Comment;
 import org.crowdlib.model.Item;
 import org.crowdlib.model.User;
 
 import java.util.ArrayList;
 
 public class InMemItem implements Item {
-    private long id = 0;
-    private String title = null;
-    User owner;
-    static int count = 0;
+    private long id;
+    private String title;
+    User user;
 
+    static int count = 0;
     static ArrayList<Item> list = new ArrayList();
 
-    public InMemItem (String title, User owner) {
+    public InMemItem (String title, User user) {
         this.id = count++;
         this.title = title;
-        this.owner = owner;
+        this.user = user;
+
+        InMemItem.list.add(this);
     }
 
     @Override
@@ -25,13 +28,13 @@ public class InMemItem implements Item {
     }
 
     @Override
-    public User getOwner() {
-        return owner;
+    public User getUser() {
+        return user;
     }
 
     @Override
-    public Item setOwner(User owner) {
-        this.owner = owner;
+    public Item setOwner(User user) {
+        this.user = user;
         return this;
     }
 
@@ -46,13 +49,31 @@ public class InMemItem implements Item {
         return this;
     }
 
+    @Override
+    public ArrayList<Comment> getComments() {
+        ArrayList<Comment> results = new ArrayList();
+        for (Comment x :InMemComment.getAll()) {
+            if (x.getItem() == this) {
+                results.add(x);
+            }
+        }
+
+        return results;
+    }
+
     // STATIC METHODS
+
+    public static Item get(long id) {
+        for (Item x : list) {
+            if (x.getID() == id) {
+                return x;
+            }
+        }
+
+        return null;
+    }
 
     public static ArrayList<Item> getAll() {
         return list;
-    }
-
-    public static void add(Item item) {
-        list.add(item);
     }
 }
