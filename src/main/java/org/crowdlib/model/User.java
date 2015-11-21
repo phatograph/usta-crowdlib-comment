@@ -1,5 +1,6 @@
 package org.crowdlib.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -22,7 +23,7 @@ public interface User {
     /**
      * Set the first (given) name of the user.
      */
-    void setName(String name);
+    User setName(String name);
 
     /**
      * Get the surname (family name) of the user.
@@ -32,7 +33,7 @@ public interface User {
     /**
      * Set the surname (family name) of the user.
      */
-    void setSurname(String name);
+    User setSurname(String name);
 
     /**
      * Get the title of the user.
@@ -42,6 +43,8 @@ public interface User {
     /**
      * Set the title of the user.
      */
-    void setTitle(String title);
+    User setTitle(String title);
+
+    ArrayList<Item> getItems();
 }
 

@@ -5,6 +5,10 @@ import java.net.URI;
 
 import javax.ws.rs.core.UriBuilder;
 
+import org.crowdlib.model.Item;
+import org.crowdlib.model.User;
+import org.crowdlib.model.inmem.InMemItem;
+import org.crowdlib.model.inmem.InMemUser;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -20,7 +24,9 @@ public final class Main {
      * Private constructor - this is a utility class.
      */
     private Main() {
-    };
+    }
+
+    ;
 
     /**
      * Create a Grizzly server and register the classes that make up this application.
@@ -28,8 +34,9 @@ public final class Main {
     protected static HttpServer createServer() throws IOException {
         final ResourceConfig rc = new ResourceConfig();
         rc.packages("org.crowdlib.main");
-        rc.register(MyResource.class);
-        rc.register(AuthFilter.class);
+//        rc.register(MyResource.class);
+//        rc.register(UserController.class);
+//        rc.register(AuthFilter.class);
         return GrizzlyHttpServerFactory.createHttpServer(BASE_URI, rc);
     }
 
@@ -37,6 +44,19 @@ public final class Main {
      * main() method starts up Grizzly server, waits for user input, then shuts it down.
      */
     public static void main(final String[] args) throws IOException {
+        User u;
+        u = new InMemUser();
+        u.setName("Phat").setSurname("Wangrungarun");
+        InMemUser.add(u);
+
+        u = new InMemUser();
+        u.setName("Sebastian").setSurname("Duque");
+        InMemUser.add(u);
+
+        Item i;
+        i = new InMemItem("LotR", InMemUser.get(0));
+        InMemItem.add(i);
+
         final HttpServer httpServer = createServer();
         System.out.println("Starting grizzly2...");
         httpServer.start();
