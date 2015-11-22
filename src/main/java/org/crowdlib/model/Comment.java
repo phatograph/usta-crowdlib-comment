@@ -16,4 +16,7 @@ public interface Comment {
 
     ArrayList<Comment> getComments();
     ArrayList<Comment> getComments(int from, int limit);
+
+    Comment delete();
+    Comment restore();
 }

@@ -6,7 +6,6 @@ import org.crowdlib.model.User;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class InMemComment implements Comment {
     private long id;
@@ -15,6 +14,9 @@ public class InMemComment implements Comment {
     private Item item;
     private Comment parent;
     private Date date;
+    private int status = 0;
+    public static final String DELETE_MESSAGE_USER = "The post was removed by the user";
+    public static final String DELETE_MESSAGE_ADMIN = "The post was removed by a moderator";
 
     private static int count = 0;
     private static ArrayList<Comment> list = new ArrayList();
@@ -60,7 +62,12 @@ public class InMemComment implements Comment {
 
     @Override
     public String getContent() {
-        return content;
+        switch (status) {
+            case 1:
+                return DELETE_MESSAGE_USER;
+            default:
+                return content;
+        }
     }
 
     @Override
@@ -77,7 +84,7 @@ public class InMemComment implements Comment {
     @Override
     public ArrayList<Comment> getComments() {
         ArrayList<Comment> results = new ArrayList();
-        for (Comment x :list) {
+        for (Comment x : list) {
             if (x.getParent() == this) {
                 results.add(x);
             }
@@ -97,6 +104,18 @@ public class InMemComment implements Comment {
         }
 
         return new ArrayList((cList).subList(from, from + limit));
+    }
+
+    @Override
+    public Comment delete() {
+        this.status = 1;
+        return this;
+    }
+
+    @Override
+    public Comment restore() {
+        this.status = 0;
+        return this;
     }
 
     // STATIC METHODS

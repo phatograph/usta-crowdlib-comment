@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.crowdlib.decorator.CommentDecorator;
 import org.crowdlib.model.Comment;
 import org.crowdlib.model.Item;
 import org.crowdlib.model.inmem.InMemComment;
@@ -34,10 +35,11 @@ public class ItemController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@PathParam("id") int id, @QueryParam("from") int from, @QueryParam("limit") int limit) {
         HashMap h = new HashMap();
+        ArrayList<HashMap> hs = new ArrayList<HashMap>();
         Item i = InMemItem.get(id);
 
         h.put("item", i);
-        h.put("comments", i.getComments(from, limit));
+        h.put("comments", CommentDecorator.decorate(i.getComments(from, limit)));
 
         return Response.ok(g.toJson(h)).build();
     }
@@ -73,7 +75,7 @@ public class ItemController {
                 InMemItem.get(id)
         );
 
-        return Response.ok(g.toJson(c)).build();
+        return Response.ok().build();
     }
 }
 

@@ -66,5 +66,13 @@ public class InMemCommentTest {
 
         assertEquals(0, c1.getComments(3, 2).size());
     }
+
+    @Test
+    public void deleteComment() {
+        Item i1 = new InMemItem("Test 1", mockUser);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
+        assertEquals(InMemComment.DELETE_MESSAGE_USER, c1.delete().getContent());
+        assertEquals(InMemComment.DELETE_MESSAGE_USER, InMemComment.get(c1.getID()).getContent());
+    }
 }
 

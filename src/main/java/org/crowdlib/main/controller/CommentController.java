@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.crowdlib.decorator.CommentDecorator;
 import org.crowdlib.model.Comment;
 import org.crowdlib.model.inmem.InMemComment;
 import org.crowdlib.model.inmem.InMemItem;
@@ -24,7 +25,7 @@ public class CommentController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getComment(@PathParam("id") int id, @QueryParam("from") int from, @QueryParam("limit") int limit) {
         Comment c = InMemComment.get(id);
-        return Response.ok(g.toJson(c.getComments(from, limit))).build();
+        return Response.ok(g.toJson(CommentDecorator.decorate(c.getComments(from, limit)))).build();
     }
 
     @POST
@@ -42,7 +43,37 @@ public class CommentController {
                 InMemComment.get(id)
         );
 
-        return Response.ok(g.toJson(c)).build();
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Path("{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response delete(@PathParam("id") int id) {
+        Comment c = InMemComment.get(id);
+
+        if (InMemUser.getCurrentUser() == c.getUser()) {
+            c.delete();
+            return Response.ok().build();
+        }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
+    }
+
+    @PUT
+    @Path("{id}/restore")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response restore(@PathParam("id") int id) {
+        Comment c = InMemComment.get(id);
+
+        if (InMemUser.getCurrentUser() == c.getUser()) {
+            c.restore();
+            return Response.ok().build();
+        }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 }
 
