@@ -12,6 +12,7 @@ public class InMemUserTest {
     @Test
     public void getId() {
         assertEquals(0, mockUser.getID());
+        assertEquals(0, InMemUser.getAll().size());
     }
 
     @Test

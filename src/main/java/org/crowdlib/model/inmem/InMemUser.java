@@ -19,6 +19,9 @@ public class InMemUser implements User {
     private static ArrayList<User> list = new ArrayList();
     private static User currentUser;
 
+    public InMemUser() {
+    }
+
     public InMemUser(String name, String surname) {
         id = count++;
         setName(name);

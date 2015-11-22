@@ -4,12 +4,19 @@ import org.crowdlib.model.Comment;
 import org.crowdlib.model.Item;
 import org.crowdlib.model.User;
 import org.crowdlib.model.mock.MockUser;
+import org.junit.After;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 public class InMemItemTest {
     User mockUser = new MockUser();
+
+    @After
+    public void after() {
+        InMemItem.getAll().clear();
+        InMemComment.getAll().clear();
+    }
 
     @Test
     public void getAll() {
