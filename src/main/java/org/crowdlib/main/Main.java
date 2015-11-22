@@ -57,7 +57,7 @@ public final class Main {
     }
 
     static void bootstrapping() {
-        User u1 = new InMemUser("Phat", "Wangrungarun");
+        User u1 = new InMemUser("Phat", "Wangrungarun").setIsAdmin(true);
         User u2 = new InMemUser("Sebastian", "Duque");
         User u3 = new InMemUser("Suhyun", "Cha");
         InMemUser.setCurrentUser(u1);

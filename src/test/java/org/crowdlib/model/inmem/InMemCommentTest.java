@@ -17,6 +17,7 @@ public class InMemCommentTest {
     @After
     public void after() {
         InMemComment.getAll().clear();
+        InMemUser.setCurrentUser(null);
     }
 
     @Test
@@ -69,10 +70,54 @@ public class InMemCommentTest {
 
     @Test
     public void deleteComment() {
+        InMemUser.setCurrentUser(mockUser);
         Item i1 = new InMemItem("Test 1", mockUser);
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
+
         assertEquals(InMemComment.DELETE_MESSAGE_USER, c1.delete().getContent());
         assertEquals(InMemComment.DELETE_MESSAGE_USER, InMemComment.get(c1.getID()).getContent());
+    }
+
+    @Test
+    public void deleteCommentNotOwn() {
+        InMemUser.setCurrentUser(mockUser);
+        User anotherUser = new InMemUser();
+        Item i1 = new InMemItem("Test 1", mockUser);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
+        Comment c2 = new InMemComment("Comment 2", anotherUser, i1);
+
+        assertNotNull(c1.delete());
+        assertNull(c2.delete());
+    }
+
+    @Test
+    public void restoreComment() {
+        InMemUser.setCurrentUser(mockUser);
+        User anotherUser = new InMemUser();
+        Item i1 = new InMemItem("Test 1", mockUser);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
+        Comment c2 = new InMemComment("Comment 2", anotherUser, i1);
+
+        assertNotNull(c1.delete());
+        assertNotNull(c1.restore());
+        assertNull(c2.delete());
+        assertNull(c2.restore());
+    }
+
+    @Test
+    public void adminDeleteRestoreComment() {
+        User anotherUser = new InMemUser().setIsAdmin(true);
+        InMemUser.setCurrentUser(anotherUser);
+
+        Item i1 = new InMemItem("Test 1", mockUser);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
+        Comment c2 = new InMemComment("Comment 2", anotherUser, i1);
+
+        assertNotNull(c1.delete());
+        assertEquals(InMemComment.DELETE_MESSAGE_ADMIN, c1.getContent());
+        assertNotNull(c1.restore());
+        assertNotNull(c2.delete());
+        assertNotNull(c2.restore());
     }
 }
 

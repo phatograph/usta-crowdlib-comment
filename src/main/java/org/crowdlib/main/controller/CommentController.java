@@ -53,8 +53,7 @@ public class CommentController {
     public Response delete(@PathParam("id") int id) {
         Comment c = InMemComment.get(id);
 
-        if (InMemUser.getCurrentUser() == c.getUser()) {
-            c.delete();
+        if (c.delete() != null) {
             return Response.ok().build();
         }
 
@@ -68,8 +67,7 @@ public class CommentController {
     public Response restore(@PathParam("id") int id) {
         Comment c = InMemComment.get(id);
 
-        if (InMemUser.getCurrentUser() == c.getUser()) {
-            c.restore();
+        if (c.restore() != null) {
             return Response.ok().build();
         }
 

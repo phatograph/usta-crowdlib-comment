@@ -46,5 +46,8 @@ public interface User {
     User setTitle(String title);
 
     ArrayList<Item> getItems();
+
+    boolean getIsAdmin();
+    User setIsAdmin(boolean isAdmin);
 }
 

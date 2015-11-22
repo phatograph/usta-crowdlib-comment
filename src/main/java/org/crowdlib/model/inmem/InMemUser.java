@@ -14,6 +14,7 @@ public class InMemUser implements User {
     private String name;
     private String surname;
     private String title;
+    private boolean isAdmin = false;
 
     private static int count = 0;
     private static ArrayList<User> list = new ArrayList();
@@ -68,6 +69,7 @@ public class InMemUser implements User {
         return this;
     }
 
+    @Override
     public ArrayList<Item> getItems() {
         ArrayList<Item> results = new ArrayList();
         for (Item x :InMemItem.getAll()) {
@@ -77,6 +79,17 @@ public class InMemUser implements User {
         }
 
         return results;
+    }
+
+    @Override
+    public boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    @Override
+    public User setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
+        return this;
     }
 
     // STATIC METHODS

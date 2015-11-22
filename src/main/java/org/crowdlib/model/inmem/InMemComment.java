@@ -15,8 +15,8 @@ public class InMemComment implements Comment {
     private Comment parent;
     private Date date;
     private int status = 0;
-    public static final String DELETE_MESSAGE_USER = "The post was removed by the user";
-    public static final String DELETE_MESSAGE_ADMIN = "The post was removed by a moderator";
+    public static final String DELETE_MESSAGE_USER = "The post was removed by the user.";
+    public static final String DELETE_MESSAGE_ADMIN = "The post was removed by a moderator.";
 
     private static int count = 0;
     private static ArrayList<Comment> list = new ArrayList();
@@ -65,6 +65,8 @@ public class InMemComment implements Comment {
         switch (status) {
             case 1:
                 return DELETE_MESSAGE_USER;
+            case 2:
+                return DELETE_MESSAGE_ADMIN;
             default:
                 return content;
         }
@@ -108,14 +110,26 @@ public class InMemComment implements Comment {
 
     @Override
     public Comment delete() {
-        this.status = 1;
-        return this;
+        if (InMemUser.getCurrentUser() == getUser()) {
+            status = 1;
+            return this;
+        }
+        else if (InMemUser.getCurrentUser().getIsAdmin()) {
+            status = 2;
+            return this;
+        }
+
+        return null;
     }
 
     @Override
     public Comment restore() {
-        this.status = 0;
-        return this;
+        if (InMemUser.getCurrentUser() == getUser() || InMemUser.getCurrentUser().getIsAdmin()) {
+            status = 0;
+            return this;
+        }
+
+        return null;
     }
 
     // STATIC METHODS
