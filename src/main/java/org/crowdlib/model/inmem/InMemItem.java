@@ -11,8 +11,8 @@ public class InMemItem implements Item {
     private String title;
     User user;
 
-    static int count = 0;
-    static ArrayList<Item> list = new ArrayList();
+    private static int count = 0;
+    private static ArrayList<Item> list = new ArrayList();
 
     public InMemItem (String title, User user) {
         this.id = count++;

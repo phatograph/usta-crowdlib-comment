@@ -24,7 +24,7 @@ public class CommentController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getComment(@PathParam("id") String id) {
         Comment c = InMemComment.get(Integer.parseInt(id));
-        return Response.ok().entity(g.toJson(c.getComments())).build();
+        return Response.ok(g.toJson(c.getComments())).build();
     }
 }
 

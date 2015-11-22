@@ -40,7 +40,23 @@ public class ItemController {
         h.put("item", i);
         h.put("comments", i.getComments());
 
-        return Response.ok().entity(g.toJson(h)).build();
+        return Response.ok(g.toJson(h)).build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response add(InputStream is) {
+        JsonParser parser = new JsonParser();
+        JsonElement json = parser.parse(new InputStreamReader(is));
+        JsonObject jo = json.getAsJsonObject();
+
+        Item i = new InMemItem(
+                jo.get("content").getAsString(),
+                InMemUser.getCurrentUser()
+        );
+
+        return Response.ok(g.toJson(i)).build();
     }
 
     @POST
@@ -51,9 +67,14 @@ public class ItemController {
         JsonParser parser = new JsonParser();
         JsonElement json = parser.parse(new InputStreamReader(is));
         JsonObject jo = json.getAsJsonObject();
-        Comment c = new InMemComment(jo.get("content").getAsString(), InMemUser.get(0), InMemItem.get(Integer.parseInt(id)));
 
-        return Response.ok().build();
+        Comment c = new InMemComment(
+                jo.get("content").getAsString(),
+                InMemUser.getCurrentUser(),
+                InMemItem.get(Integer.parseInt(id))
+        );
+
+        return Response.ok(g.toJson(c)).build();
     }
 }
 

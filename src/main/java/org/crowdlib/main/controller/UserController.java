@@ -24,7 +24,7 @@ public class UserController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll() {
-        return Response.ok().entity(g.toJson(InMemUser.getAll())).build();
+        return Response.ok(g.toJson(InMemUser.getAll())).build();
     }
 
     @GET
@@ -35,7 +35,7 @@ public class UserController {
         User u = InMemUser.get(Integer.parseInt(id));
         h.put("user", u);
         h.put("items", u.getItems());
-        return Response.ok().entity(g.toJson(h)).build();
+        return Response.ok(g.toJson(h)).build();
     }
 }
 

@@ -13,8 +13,8 @@ public class InMemComment implements Comment {
     private Item item;
     private Comment parent;
 
-    static int count = 0;
-    static ArrayList<Comment> list = new ArrayList();
+    private static int count = 0;
+    private static ArrayList<Comment> list = new ArrayList();
 
     public InMemComment(String content, User user, Item item) {
         this.content = content;
