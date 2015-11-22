@@ -59,10 +59,14 @@ public final class Main {
     static void bootstrapping() {
         User u1 = new InMemUser("Phat", "Wangrungarun");
         User u2 = new InMemUser("Sebastian", "Duque");
+        User u3 = new InMemUser("Suhyun", "Cha");
 
         Item i = new InMemItem("LotR", u1);
 
-        new InMemComment("Outstanding", u1, i);
-        new InMemComment("Wonderful", u2, i);
+        Comment c1 = new InMemComment("Outstanding.", u1, i);
+        new InMemComment("Wonderful.", u2, i);
+
+        new InMemComment("Indeed.", u2, c1);
+        new InMemComment("Totally agreed.", u3, c1);
     }
 }

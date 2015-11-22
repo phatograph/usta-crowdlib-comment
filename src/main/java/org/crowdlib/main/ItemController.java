@@ -1,8 +1,10 @@
 package org.crowdlib.main;
 
 import com.google.gson.Gson;
+import org.crowdlib.model.Comment;
 import org.crowdlib.model.Item;
 import org.crowdlib.model.User;
+import org.crowdlib.model.inmem.InMemComment;
 import org.crowdlib.model.inmem.InMemItem;
 import org.crowdlib.model.inmem.InMemUser;
 
@@ -12,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
+import java.awt.event.ComponentEvent;
 import java.util.HashMap;
 
 @Path("/items")
@@ -26,7 +29,7 @@ public class ItemController {
 
     @GET
     @Path("{id}")
-    @Produces("text/plain")
+    @Produces("application/json")
     public String get(@PathParam("id") String id) {
         HashMap h = new HashMap();
         Item i = InMemItem.get(Integer.parseInt(id));

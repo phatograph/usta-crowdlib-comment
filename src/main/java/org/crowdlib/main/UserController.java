@@ -27,7 +27,7 @@ public class UserController {
 
     @GET
     @Path("{id}")
-    @Produces("text/plain")
+    @Produces("application/json")
     public String get(@PathParam("id") String id) {
         HashMap h = new HashMap();
         User u = InMemUser.get(Integer.parseInt(id));
