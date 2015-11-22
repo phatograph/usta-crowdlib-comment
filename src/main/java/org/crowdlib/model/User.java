@@ -49,5 +49,7 @@ public interface User {
 
     boolean getIsAdmin();
     User setIsAdmin(boolean isAdmin);
+
+    ArrayList<Favourite> getFavourites();
 }
 

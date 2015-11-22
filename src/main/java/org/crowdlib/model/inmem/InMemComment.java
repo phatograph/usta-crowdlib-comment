@@ -1,6 +1,7 @@
 package org.crowdlib.model.inmem;
 
 import org.crowdlib.model.Comment;
+import org.crowdlib.model.Favourite;
 import org.crowdlib.model.Item;
 import org.crowdlib.model.User;
 
@@ -114,8 +115,7 @@ public class InMemComment implements Comment {
         if (InMemUser.getCurrentUser() == getUser()) {
             status = 1;
             return this;
-        }
-        else if (InMemUser.getCurrentUser().getIsAdmin()) {
+        } else if (InMemUser.getCurrentUser().getIsAdmin()) {
             status = 2;
             return this;
         }
@@ -131,6 +131,16 @@ public class InMemComment implements Comment {
         }
 
         return null;
+    }
+
+    @Override
+    public Favourite addFavourite(User user) {
+        Favourite f = new InMemFavourite(
+                user,
+                this
+        );
+
+        return f;
     }
 
     // STATIC METHODS

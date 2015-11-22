@@ -6,7 +6,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.crowdlib.decorator.CommentDecorator;
 import org.crowdlib.model.Comment;
+import org.crowdlib.model.Favourite;
 import org.crowdlib.model.inmem.InMemComment;
+import org.crowdlib.model.inmem.InMemFavourite;
 import org.crowdlib.model.inmem.InMemItem;
 import org.crowdlib.model.inmem.InMemUser;
 
@@ -38,6 +40,7 @@ public class CommentController {
         JsonObject jo = json.getAsJsonObject();
         Comment parent = InMemComment.get(id);
 
+        // TODO: move to model
         Comment c = new InMemComment(
                 jo.get("content").getAsString(),
                 InMemUser.getCurrentUser(),
@@ -74,6 +77,21 @@ public class CommentController {
         }
 
         return Response.status(Response.Status.FORBIDDEN).build();
+    }
+
+    @POST
+    @Path("{id}/favourite")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response favourite(@PathParam("id") int id) {
+        Comment c = InMemComment.get(id);
+
+        Favourite f = new InMemFavourite(
+                InMemUser.getCurrentUser(),
+                c
+        );
+
+        return Response.ok().build();
     }
 }
 

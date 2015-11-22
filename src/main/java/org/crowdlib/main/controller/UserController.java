@@ -2,6 +2,8 @@ package org.crowdlib.main.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import org.crowdlib.decorator.FavouriteDecorator;
+import org.crowdlib.model.Favourite;
 import org.crowdlib.model.User;
 import org.crowdlib.model.inmem.InMemItem;
 import org.crowdlib.model.inmem.InMemUser;
@@ -15,6 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Path("/users")
@@ -31,11 +34,20 @@ public class UserController {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@PathParam("id") int id) {
-        HashMap h = new HashMap();
         User u = InMemUser.get(id);
+        HashMap h = new HashMap();
         h.put("user", u);
         h.put("items", u.getItems());
         return Response.ok(g.toJson(h)).build();
+    }
+
+    @GET
+    @Path("{id}/favourites")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response favourites(@PathParam("id") int id) {
+        HashMap h = new HashMap();
+        ArrayList<Favourite> result = InMemUser.getCurrentUser().getFavourites();
+        return Response.ok(g.toJson(FavouriteDecorator.decorate(result))).build();
     }
 }
 

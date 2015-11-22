@@ -1,13 +1,24 @@
 package org.crowdlib.model.inmem;
 
+import org.crowdlib.model.Comment;
+import org.crowdlib.model.Favourite;
 import org.crowdlib.model.Item;
 import org.crowdlib.model.User;
 import org.crowdlib.model.mock.MockUser;
+import org.junit.After;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class InMemUserTest {
     User mockUser = new MockUser();
+
+    @After
+    public void after() {
+        InMemItem.getAll().clear();
+        InMemComment.getAll().clear();
+        InMemFavourite.getAll().clear();
+    }
 
     @Test
     public void getId() {
@@ -20,5 +31,24 @@ public class InMemUserTest {
         Item i1 = new InMemItem("Test 1", mockUser);
         Item i2 = new InMemItem("Test 2", mockUser);
         assertEquals(2, mockUser.getItems().size());
+    }
+
+    @Test
+    public void getFavourites() {
+        InMemUser.setCurrentUser(mockUser);
+        User anotherUser = new InMemUser();
+        Item i1 = new InMemItem("Test 1", mockUser);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
+        Comment c11 = new InMemComment("Comment 1-1", mockUser, i1, c1);
+        Comment c2 = new InMemComment("Comment 2", mockUser, i1);
+
+
+        c1.addFavourite(mockUser);
+        c1.addFavourite(anotherUser);
+        c1.addFavourite(anotherUser);
+
+        assertEquals(3, InMemFavourite.getAll().size());
+        assertEquals(1, mockUser.getFavourites().size());
+        assertEquals(2, anotherUser.getFavourites().size());
     }
 }

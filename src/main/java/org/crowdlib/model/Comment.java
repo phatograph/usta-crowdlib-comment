@@ -19,4 +19,5 @@ public interface Comment {
 
     Comment delete();
     Comment restore();
+    Favourite addFavourite(User user);
 }

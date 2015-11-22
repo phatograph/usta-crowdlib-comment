@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.crowdlib.model.Comment;
+import org.crowdlib.model.Favourite;
 import org.crowdlib.model.Item;
 import org.crowdlib.model.User;
 
@@ -72,7 +74,8 @@ public class InMemUser implements User {
     @Override
     public ArrayList<Item> getItems() {
         ArrayList<Item> results = new ArrayList();
-        for (Item x :InMemItem.getAll()) {
+
+        for (Item x : InMemItem.getAll()) {
             if (x.getUser() == this) {
                 results.add(x);
             }
@@ -92,6 +95,19 @@ public class InMemUser implements User {
         return this;
     }
 
+    @Override
+    public ArrayList<Favourite> getFavourites() {
+        ArrayList<Favourite> results = new ArrayList();
+
+        for (Favourite x : InMemFavourite.getAll()) {
+            if (x.getUser() == this) {
+                results.add(x);
+            }
+        }
+
+        return results;
+    }
+
     // STATIC METHODS
 
     public static User get(long id) {
@@ -108,11 +124,11 @@ public class InMemUser implements User {
         return list;
     }
 
-    public static User getCurrentUser () {
+    public static User getCurrentUser() {
         return currentUser;
     }
 
-    public static User setCurrentUser (User user) {
+    public static User setCurrentUser(User user) {
         currentUser = user;
         return currentUser;
     }
