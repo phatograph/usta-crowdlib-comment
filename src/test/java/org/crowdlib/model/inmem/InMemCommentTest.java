@@ -33,28 +33,33 @@ public class InMemCommentTest {
 
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
 
-        Comment c11 = new InMemComment("Comment 1-1", mockUser, c1);
-        Comment c12 = new InMemComment("Comment 1-2", mockUser, c1);
+        Comment c11 = new InMemComment("Comment 1-1", mockUser, i1, c1);
+        Comment c12 = new InMemComment("Comment 1-2", mockUser, i1, c1);
 
-        Comment c111 = new InMemComment("Comment 1-1-1", mockUser, c11);
-        Comment c112 = new InMemComment("Comment 1-1-2", mockUser, c11);
-        Comment c113= new InMemComment("Comment 1-1-3", mockUser, c11);
-        Comment c114= new InMemComment("Comment 1-1-4", mockUser, c11);
+        Comment c111 = new InMemComment("Comment 1-1-1", mockUser, i1, c11);
+        Comment c112 = new InMemComment("Comment 1-1-2", mockUser, i1, c11);
+        Comment c113= new InMemComment("Comment 1-1-3", mockUser, i1, c11);
+        Comment c114= new InMemComment("Comment 1-1-4", mockUser, i1, c11);
 
         assertEquals(7, InMemComment.getAll().size());
         assertEquals(1, i1.getComments().size());
         assertEquals(2, c1.getComments().size());
         assertEquals(2, c1.getComments().size());
         assertEquals(4, c11.getComments().size());
+
+        assertNull(i1.getComments().get(0).getParent());
+        assertEquals(c1, c1.getComments().get(0).getParent());
+        assertEquals(i1, c1.getItem());
+        assertEquals(i1, c1.getComments().get(0).getItem());
     }
 
     @Test
     public void getCommentsLimit() {
         Item i1 = new InMemItem("Test 1", mockUser);
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
-        Comment c11 = new InMemComment("Comment 1-1", mockUser, c1);
-        Comment c12 = new InMemComment("Comment 1-2", mockUser, c1);
-        Comment c13 = new InMemComment("Comment 1-3", mockUser, c1);
+        Comment c11 = new InMemComment("Comment 1-1", mockUser, i1, c1);
+        Comment c12 = new InMemComment("Comment 1-2", mockUser, i1, c1);
+        Comment c13 = new InMemComment("Comment 1-3", mockUser, i1, c1);
 
         assertEquals(3, c1.getComments(0, 0).size());
 

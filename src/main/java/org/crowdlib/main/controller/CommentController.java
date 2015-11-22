@@ -36,11 +36,13 @@ public class CommentController {
         JsonParser parser = new JsonParser();
         JsonElement json = parser.parse(new InputStreamReader(is));
         JsonObject jo = json.getAsJsonObject();
+        Comment parent = InMemComment.get(id);
 
         Comment c = new InMemComment(
                 jo.get("content").getAsString(),
                 InMemUser.getCurrentUser(),
-                InMemComment.get(id)
+                parent.getItem(),
+                parent
         );
 
         return Response.ok().build();

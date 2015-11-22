@@ -11,6 +11,8 @@ public class CommentDecorator extends HashMap {
         put("content", c.getContent());
         put("date", c.getDate());
         put("user", c.getUser());
+        put("parentId", c.getParent() == null ? -1 : c.getParent().getID());
+        put("itemId", c.getItem() == null ? -1 : c.getItem().getID());
     }
 
     public static ArrayList<CommentDecorator> decorate(ArrayList<Comment> comments) {

@@ -31,9 +31,10 @@ public class InMemComment implements Comment {
         InMemComment.list.add(this);
     }
 
-    public InMemComment(String content, User user, Comment parent) {
+    public InMemComment(String content, User user, Item item, Comment parent) {
         this.content = content;
         this.user = user;
+        this.item = item;
         this.parent = parent;
         id = count++;
 

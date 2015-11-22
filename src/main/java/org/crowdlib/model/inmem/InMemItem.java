@@ -54,7 +54,7 @@ public class InMemItem implements Item {
     public ArrayList<Comment> getComments() {
         ArrayList<Comment> results = new ArrayList();
         for (Comment x :InMemComment.getAll()) {
-            if (x.getItem() == this) {
+            if (x.getItem() == this && x.getParent() == null) {
                 results.add(x);
             }
         }

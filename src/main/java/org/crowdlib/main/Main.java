@@ -66,8 +66,8 @@ public final class Main {
 
         Comment c1 = new InMemComment("Outstanding.", u1, i1);
         new InMemComment("Wonderful.", u2, i1);
-        new InMemComment("Indeed.", u2, c1);
-        new InMemComment("Totally agreed.", u3, c1);
+        new InMemComment("Indeed.", u2, i1, c1);
+        new InMemComment("Totally agreed.", u3, i1, c1);
 
         Item i2 = new InMemItem("Last Fantasy", u2);
 
@@ -77,7 +77,7 @@ public final class Main {
 
         for (int i = 0; i < 300; i++) {
             Comment tmp = i1.getComments().get(1);
-            new InMemComment(String.format("Comment %s-%s", tmp.getID(), i), u2, tmp);
+            new InMemComment(String.format("Comment %s-%s", tmp.getID(), i), u2, tmp.getItem(), tmp);
         }
     }
 }

@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class InMemItemTest {
     User mockUser = new MockUser();
@@ -35,9 +36,14 @@ public class InMemItemTest {
         Comment c2 = new InMemComment("Comment 1-2", mockUser, i1);
         Comment c3 = new InMemComment("Comment 2-1", mockUser, i2);
 
-        assertEquals(3, InMemComment.getAll().size());
+        Comment c11 = new InMemComment("Comment 1-1", mockUser, i1, c1);
+        Comment c12 = new InMemComment("Comment 1-2", mockUser, i1, c1);
+        Comment c13 = new InMemComment("Comment 2-1", mockUser, i2, c1);
+
+        assertEquals(6, InMemComment.getAll().size());
         assertEquals(2, i1.getComments().size());
         assertEquals(1, i2.getComments().size());
+        assertNull(i2.getComments().get(0).getParent());
     }
 
     @Test
