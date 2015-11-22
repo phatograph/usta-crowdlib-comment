@@ -1,6 +1,7 @@
 package org.crowdlib.model.inmem;
 
 import org.crowdlib.model.Comment;
+import org.crowdlib.model.Favourite;
 import org.crowdlib.model.Item;
 import org.crowdlib.model.User;
 import org.crowdlib.model.mock.MockUser;
@@ -123,6 +124,20 @@ public class InMemCommentTest {
         assertNotNull(c1.restore());
         assertNotNull(c2.delete());
         assertNotNull(c2.restore());
+    }
+
+    @Test
+    public void testFavourite() {
+        User anotherUser = new InMemUser().setIsAdmin(true);
+
+        Item i1 = new InMemItem("Test 1", mockUser);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
+        Comment c2 = new InMemComment("Comment 2", anotherUser, i1);
+
+        c1.favourite(mockUser);
+        assertEquals(1, InMemFavourite.getAll().size());
+        assertFalse(c1.unFavourite(anotherUser));
+        assertTrue(c1.unFavourite(mockUser));
     }
 }
 

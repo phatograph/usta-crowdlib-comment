@@ -134,13 +134,26 @@ public class InMemComment implements Comment {
     }
 
     @Override
-    public Favourite addFavourite(User user) {
+    public Favourite favourite(User user) {
+        // TODO: move to model.
         Favourite f = new InMemFavourite(
                 user,
                 this
         );
 
         return f;
+    }
+
+    @Override
+    public boolean unFavourite(User user) {
+        for (Favourite f: user.getFavourites()) {
+            if (f.getComment() == this) {
+                f.delete();
+                return true;
+            }
+        }
+
+        return false;
     }
 
     // STATIC METHODS

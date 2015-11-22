@@ -1,7 +1,6 @@
 package org.crowdlib.model.inmem;
 
 import org.crowdlib.model.Comment;
-import org.crowdlib.model.Favourite;
 import org.crowdlib.model.Item;
 import org.crowdlib.model.User;
 import org.crowdlib.model.mock.MockUser;
@@ -43,9 +42,9 @@ public class InMemUserTest {
         Comment c2 = new InMemComment("Comment 2", mockUser, i1);
 
 
-        c1.addFavourite(mockUser);
-        c1.addFavourite(anotherUser);
-        c1.addFavourite(anotherUser);
+        c1.favourite(mockUser);
+        c1.favourite(anotherUser);
+        c1.favourite(anotherUser);
 
         assertEquals(3, InMemFavourite.getAll().size());
         assertEquals(1, mockUser.getFavourites().size());

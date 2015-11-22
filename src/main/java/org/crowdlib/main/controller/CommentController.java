@@ -85,11 +85,18 @@ public class CommentController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response favourite(@PathParam("id") int id) {
         Comment c = InMemComment.get(id);
+        c.favourite(InMemUser.getCurrentUser());
 
-        Favourite f = new InMemFavourite(
-                InMemUser.getCurrentUser(),
-                c
-        );
+        return Response.ok().build();
+    }
+
+    @POST
+    @Path("{id}/unfavourite")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response unFavourite(@PathParam("id") int id) {
+        Comment c = InMemComment.get(id);
+        c.unFavourite(InMemUser.getCurrentUser());
 
         return Response.ok().build();
     }

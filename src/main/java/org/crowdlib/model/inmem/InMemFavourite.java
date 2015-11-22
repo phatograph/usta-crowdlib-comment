@@ -37,7 +37,27 @@ public class InMemFavourite implements Favourite {
         return comment;
     }
 
+    @Override
+    public boolean delete() {
+        if (user == InMemUser.getCurrentUser()) {
+            list.remove(this);
+            return true;
+        }
+
+        return false;
+    }
+
     // STATIC METHODS
+
+    public static Favourite get(long id) {
+        for (Favourite x : list) {
+            if (x.getID() == id) {
+                return x;
+            }
+        }
+
+        return null;
+    }
 
     public static ArrayList<Favourite> getAll() {
         return list;
