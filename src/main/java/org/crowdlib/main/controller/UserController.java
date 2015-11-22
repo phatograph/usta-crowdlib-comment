@@ -1,4 +1,4 @@
-package org.crowdlib.main;
+package org.crowdlib.main.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
