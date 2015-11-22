@@ -5,6 +5,7 @@ import org.crowdlib.model.Item;
 import org.crowdlib.model.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class InMemItem implements Item {
     private long id;
@@ -59,6 +60,18 @@ public class InMemItem implements Item {
         }
 
         return results;
+    }
+
+    @Override
+    public ArrayList<Comment> getComments(int from, int limit) {
+        ArrayList cList = getComments();
+        from = Math.min(from, cList.size() - 1);
+
+        if (from + limit > cList.size()) {
+            limit = Math.min(limit, cList.size() - from);
+        }
+
+        return new ArrayList((cList).subList(from, from + limit));
     }
 
     // STATIC METHODS

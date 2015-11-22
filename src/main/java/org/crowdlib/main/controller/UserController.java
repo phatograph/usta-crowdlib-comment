@@ -30,9 +30,9 @@ public class UserController {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response get(@PathParam("id") String id) {
+    public Response get(@PathParam("id") int id) {
         HashMap h = new HashMap();
-        User u = InMemUser.get(Integer.parseInt(id));
+        User u = InMemUser.get(id);
         h.put("user", u);
         h.put("items", u.getItems());
         return Response.ok(g.toJson(h)).build();

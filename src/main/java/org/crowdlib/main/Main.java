@@ -62,12 +62,17 @@ public final class Main {
         User u3 = new InMemUser("Suhyun", "Cha");
         InMemUser.setCurrentUser(u1);
 
-        Item i = new InMemItem("LotR", u1);
+        Item i1 = new InMemItem("Lord of the Rings", u1);
 
-        Comment c1 = new InMemComment("Outstanding.", u1, i);
-        new InMemComment("Wonderful.", u2, i);
-
+        Comment c1 = new InMemComment("Outstanding.", u1, i1);
+        new InMemComment("Wonderful.", u2, i1);
         new InMemComment("Indeed.", u2, c1);
         new InMemComment("Totally agreed.", u3, c1);
+
+        Item i2 = new InMemItem("Last Fantasy", u2);
+
+        for (int i = 0; i < 300; i++) {
+            new InMemComment(String.format("Comment %s", i), u3, i2);
+        }
     }
 }

@@ -32,4 +32,19 @@ public class InMemItemTest {
         assertEquals(2, i1.getComments().size());
         assertEquals(1, i2.getComments().size());
     }
+
+    @Test
+    public void getCommentsLimit() {
+        Item i1 = new InMemItem("Test 1", mockUser);
+        Comment c1 = new InMemComment("Comment 1-1", mockUser, i1);
+        Comment c2 = new InMemComment("Comment 1-2", mockUser, i1);
+        Comment c3 = new InMemComment("Comment 2-1", mockUser, i1);
+
+        assertEquals(2, i1.getComments(0, 2).size());
+        assertEquals(c1, i1.getComments(0, 2).get(0));
+        assertEquals(c2, i1.getComments(0, 2).get(1));
+
+        assertEquals(1, i1.getComments(2, 2).size());
+        assertEquals(c3, i1.getComments(2, 2).get(0));
+    }
 }

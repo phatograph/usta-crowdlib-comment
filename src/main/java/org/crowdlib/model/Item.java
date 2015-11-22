@@ -28,4 +28,5 @@ public interface Item {
     String getTitle();
     Item setTitle(String title);
     ArrayList<Comment> getComments();
+    ArrayList<Comment> getComments(int from, int limit);
 }

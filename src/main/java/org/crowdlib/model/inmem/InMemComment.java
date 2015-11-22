@@ -6,6 +6,7 @@ import org.crowdlib.model.User;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class InMemComment implements Comment {
     private long id;
@@ -33,7 +34,6 @@ public class InMemComment implements Comment {
         this.user = user;
         this.parent = parent;
         id = count++;
-        date = new Date();
 
         InMemComment.list.add(this);
     }
