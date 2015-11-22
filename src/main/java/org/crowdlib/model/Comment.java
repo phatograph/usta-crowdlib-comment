@@ -15,4 +15,5 @@ public interface Comment {
     Date getDate();
 
     ArrayList<Comment> getComments();
+    ArrayList<Comment> getComments(int from, int limit);
 }

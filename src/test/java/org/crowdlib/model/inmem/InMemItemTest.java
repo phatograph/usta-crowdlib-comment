@@ -36,9 +36,11 @@ public class InMemItemTest {
     @Test
     public void getCommentsLimit() {
         Item i1 = new InMemItem("Test 1", mockUser);
-        Comment c1 = new InMemComment("Comment 1-1", mockUser, i1);
-        Comment c2 = new InMemComment("Comment 1-2", mockUser, i1);
-        Comment c3 = new InMemComment("Comment 2-1", mockUser, i1);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
+        Comment c2 = new InMemComment("Comment 2", mockUser, i1);
+        Comment c3 = new InMemComment("Comment 3", mockUser, i1);
+
+        assertEquals(3, i1.getComments(0, 0).size());
 
         assertEquals(2, i1.getComments(0, 2).size());
         assertEquals(c1, i1.getComments(0, 2).get(0));
@@ -46,5 +48,7 @@ public class InMemItemTest {
 
         assertEquals(1, i1.getComments(2, 2).size());
         assertEquals(c3, i1.getComments(2, 2).get(0));
+
+        assertEquals(0, i1.getComments(3, 2).size());
     }
 }

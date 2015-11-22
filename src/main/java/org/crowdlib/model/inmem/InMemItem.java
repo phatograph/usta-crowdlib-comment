@@ -65,7 +65,8 @@ public class InMemItem implements Item {
     @Override
     public ArrayList<Comment> getComments(int from, int limit) {
         ArrayList cList = getComments();
-        from = Math.min(from, cList.size() - 1);
+        from = Math.min(from, cList.size());
+        if (limit == 0) limit = cList.size();
 
         if (from + limit > cList.size()) {
             limit = Math.min(limit, cList.size() - from);

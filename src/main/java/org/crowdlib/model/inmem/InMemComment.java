@@ -77,13 +77,26 @@ public class InMemComment implements Comment {
     @Override
     public ArrayList<Comment> getComments() {
         ArrayList<Comment> results = new ArrayList();
-        for (Comment x :InMemComment.getAll()) {
+        for (Comment x :list) {
             if (x.getParent() == this) {
                 results.add(x);
             }
         }
 
         return results;
+    }
+
+    @Override
+    public ArrayList<Comment> getComments(int from, int limit) {
+        ArrayList cList = getComments();
+        from = Math.min(from, cList.size());
+        if (limit == 0) limit = cList.size();
+
+        if (from + limit > cList.size()) {
+            limit = Math.min(limit, cList.size() - from);
+        }
+
+        return new ArrayList((cList).subList(from, from + limit));
     }
 
     // STATIC METHODS

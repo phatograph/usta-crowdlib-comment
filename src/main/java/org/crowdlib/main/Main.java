@@ -74,5 +74,10 @@ public final class Main {
         for (int i = 0; i < 300; i++) {
             new InMemComment(String.format("Comment %s", i), u3, i2);
         }
+
+        for (int i = 0; i < 300; i++) {
+            Comment tmp = i1.getComments().get(1);
+            new InMemComment(String.format("Comment %s-%s", tmp.getID(), i), u2, tmp);
+        }
     }
 }
