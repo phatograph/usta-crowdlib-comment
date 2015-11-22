@@ -5,6 +5,9 @@ import org.crowdlib.model.Item;
 import org.crowdlib.model.User;
 import org.crowdlib.model.mock.MockUser;
 import org.junit.Test;
+
+import java.util.Date;
+
 import static org.junit.Assert.*;
 
 public class InMemCommentTest {
@@ -25,6 +28,13 @@ public class InMemCommentTest {
         assertEquals(3, InMemComment.getAll().size());
         assertEquals(1, i1.getComments().size());
         assertEquals(2, c1.getComments().size());
+    }
+
+    @Test
+    public void timestampTest() {
+        Item i1 = new InMemItem("Test 1", mockUser);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
+        assertTrue(c1.getDate().getTime() <= (new Date()).getTime());
     }
 }
 

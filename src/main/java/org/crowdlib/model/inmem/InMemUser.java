@@ -29,12 +29,12 @@ public class InMemUser implements User {
 
     @Override
     public long getID() {
-        return this.id;
+        return id;
     }
 
     @Override
     public String getName() {
-        return this.name;
+        return name;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class InMemUser implements User {
 
     @Override
     public String getSurname() {
-        return this.surname;
+        return surname;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class InMemUser implements User {
 
     @Override
     public String getTitle() {
-        return this.title;
+        return title;
     }
 
     @Override

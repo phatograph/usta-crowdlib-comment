@@ -5,6 +5,7 @@ import org.crowdlib.model.Item;
 import org.crowdlib.model.User;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class InMemComment implements Comment {
     private long id;
@@ -12,6 +13,7 @@ public class InMemComment implements Comment {
     private User user;
     private Item item;
     private Comment parent;
+    private Date date;
 
     private static int count = 0;
     private static ArrayList<Comment> list = new ArrayList();
@@ -21,6 +23,7 @@ public class InMemComment implements Comment {
         this.user = user;
         this.item = item;
         id = count++;
+        date = new Date();
 
         InMemComment.list.add(this);
     }
@@ -30,6 +33,7 @@ public class InMemComment implements Comment {
         this.user = user;
         this.parent = parent;
         id = count++;
+        date = new Date();
 
         InMemComment.list.add(this);
     }
@@ -50,19 +54,24 @@ public class InMemComment implements Comment {
     }
 
     @Override
-    public String getContent() {
-        return content;
+    public Comment getParent() {
+        return parent;
     }
 
     @Override
-    public Comment getParent() {
-        return parent;
+    public String getContent() {
+        return content;
     }
 
     @Override
     public Comment setContent(String content) {
         this.content = content;
         return this;
+    }
+
+    @Override
+    public Date getDate() {
+        return date;
     }
 
     @Override
