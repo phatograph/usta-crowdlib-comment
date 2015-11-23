@@ -29,12 +29,24 @@ open build/reports/checkstyle/main.html
 
 > 1. A Comment is posted by a User and can either be a new comment on a library catalogue item or a reply to a previous comment.
 
+Comments can be added to an item.
+
+``` bash
+$ curl -H "Content-Type: application/json" -X POST -d '{"content":"New comment!"}' http://localhost:9998/items/0/reply -v -s
+```
+
+Or also to another comment.
+
+``` bash
+$ curl -H "Content-Type: application/json" -X POST -d '{"content":"Another new comment!"}' http://localhost:9998/comments/604/reply -v -s
+```
+
 > 2. Comments are timestamped.
 
 Posting a comment will introduce the current timestamp.
 
 ``` bash
-$ curl -H "Content-Type: application/json" -X POST -d '{"content":"New comment!"}' http://localhost:9998/items/0/reply -v -s | jq '.'
+$ curl -H "Content-Type: application/json" -X POST -d '{"content":"New comment!"}' http://localhost:9998/items/0/reply -v -s
 {
   "date": "Nov 23, 2015 5:35:37 PM",
   "itemId": 0,
@@ -55,8 +67,30 @@ $ curl -H "Content-Type: application/json" -X POST -d '{"content":"New comment!"
 posted. A paging feature should allow users to select 20, 50 or 100 comments at a
 time.
 
+To get the paging to work, one needs to specify `limit` and/or `from` query strings.
+For exmaple, consider this following request.
+
+``` bash
+$ curl -H "Content-Type: application/json" http://localhost:9998/items/1\?limit\=2\&from\=3 -v -s
+```
+
+This means you're getting an information of comment id `1`, with its 2 comments,
+starting from the 3rd one.
+
 > 4. Users should be able to select a comment as a favourite and should be able to
 retrieve all the comments the have put on their list of favourites.
+
+To favourite a comment.
+
+``` bash
+$ curl -H "Content-Type: application/json" -X POST http://localhost:9998/comments/1/favourite -v -s
+```
+
+To get a user favoured comments.
+
+``` bash
+$ curl -H "Content-Type: application/json" http://localhost:9998/users/0/favourites -v -s
+```
 
 > 5. For any comments it should be possible to retrieve the replies to this comment
 including replies to replies and so on.
@@ -120,3 +154,5 @@ curl -v -H "Content-Type: application/json" http://localhost:9998/users/{user_id
 ``` bash
 curl -H "Content-Type: application/json" -X POST -d '{"content":"Turkish goes to the Moon"}' http://localhost:9998/items
 ```
+
+## CORS

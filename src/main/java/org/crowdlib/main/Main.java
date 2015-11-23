@@ -38,6 +38,7 @@ public final class Main {
 //        rc.register(MyResource.class);
 //        rc.register(UserController.class);
 //        rc.register(AuthFilter.class);
+        rc.register(CORSResponseFilter.class);
         return GrizzlyHttpServerFactory.createHttpServer(BASE_URI, rc);
     }
 
