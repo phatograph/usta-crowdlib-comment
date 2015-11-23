@@ -11,6 +11,7 @@ public class InMemNotification implements Notification {
     private int id;
     private User user;
     private Comment comment;
+    private boolean isRead;
 
     private static int count = 0;
     private static ArrayList<Notification> list = new ArrayList();
@@ -19,6 +20,7 @@ public class InMemNotification implements Notification {
         this.id = count++;
         this.user = user;
         this.comment = comment;
+        this.isRead = false;
 
         InMemNotification.list.add(this);
     }
@@ -46,6 +48,17 @@ public class InMemNotification implements Notification {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean getIsRead() {
+        return isRead;
+    }
+
+    @Override
+    public Notification setIsRead(boolean isRead) {
+        this.isRead = isRead;
+        return this;
     }
 
     // STATIC METHODS

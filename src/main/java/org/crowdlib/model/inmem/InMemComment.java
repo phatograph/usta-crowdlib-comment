@@ -12,7 +12,7 @@ public class InMemComment implements Comment {
     private Item item;
     private Comment parent;
     private Date date;
-    private int status = 0;
+    private int status;
     public static final String DELETE_MESSAGE_USER = "The post was removed by the user.";
     public static final String DELETE_MESSAGE_ADMIN = "The post was removed by a moderator.";
 
@@ -20,12 +20,13 @@ public class InMemComment implements Comment {
     private static ArrayList<Comment> list = new ArrayList();
 
     public InMemComment(String content, User user, Item item, Comment parent) {
+        this.id = count++;
         this.content = content;
         this.user = user;
         this.item = item;
         this.parent = parent;
+        this.status = 0;
         date = new Date();
-        id = count++;
 
         InMemComment.list.add(this);
     }

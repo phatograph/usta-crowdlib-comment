@@ -5,5 +5,7 @@ public interface Notification {
     User getUser();
     Comment getComment();
     boolean delete();
+    boolean getIsRead();
+    Notification setIsRead(boolean isRead);
 }
 

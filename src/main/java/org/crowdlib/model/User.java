@@ -55,5 +55,6 @@ public interface User {
     boolean unFavourite(Comment comment);
 
     ArrayList<Notification> getNotifications();
+    void readNotifications();
 }
 

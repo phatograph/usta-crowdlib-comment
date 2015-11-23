@@ -13,7 +13,7 @@ public class InMemUser implements User {
     private String name;
     private String surname;
     private String title;
-    private boolean isAdmin = false;
+    private boolean isAdmin;
 
     private static int count = 0;
     private static ArrayList<User> list = new ArrayList();
@@ -23,9 +23,10 @@ public class InMemUser implements User {
     }
 
     public InMemUser(String name, String surname) {
-        id = count++;
-        setName(name);
-        setSurname(surname);
+        this.id = count++;
+        this.name = name;
+        this.surname = surname;
+        this.isAdmin = false;
 
         InMemUser.list.add(this);
     }
@@ -127,12 +128,19 @@ public class InMemUser implements User {
         ArrayList<Notification> results = new ArrayList();
 
         for (Notification x : InMemNotification.getAll()) {
-            if (x.getUser() == this) {
+            if (x.getUser() == this && !x.getIsRead()) {
                 results.add(x);
             }
         }
 
         return results;
+    }
+
+    @Override
+    public void readNotifications() {
+        for (Notification x : getNotifications()) {
+            x.setIsRead(true);
+        }
     }
 
     // STATIC METHODS

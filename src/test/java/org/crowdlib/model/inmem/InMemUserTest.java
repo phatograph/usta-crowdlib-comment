@@ -41,4 +41,16 @@ public class InMemUserTest extends BaseTest {
         assertEquals(1, mockUser.getFavourites().size());
         assertEquals(2, anotherUser.getFavourites().size());
     }
+
+    @Test
+    public void notifications() {
+        User anotherUser = new InMemUser();
+        Item i1 = InMemItem.add("Test 1", mockUser);
+        Comment c1 = InMemComment.add("Comment 1", anotherUser, i1, null);
+
+        assertEquals(1, mockUser.getNotifications().size());
+        mockUser.readNotifications();
+        assertEquals(1, InMemNotification.getAll().size());
+        assertEquals(0, mockUser.getNotifications().size());
+    }
 }
