@@ -31,6 +31,26 @@ open build/reports/checkstyle/main.html
 
 > 2. Comments are timestamped.
 
+Posting a comment will introduce the current timestamp.
+
+``` bash
+$ curl -H "Content-Type: application/json" -X POST -d '{"content":"New comment!"}' http://localhost:9998/items/0/reply -v -s | jq '.'
+{
+  "date": "Nov 23, 2015 5:35:37 PM",
+  "itemId": 0,
+  "favourites": 0,
+  "id": 604,
+  "user": {
+    "id": 0,
+    "name": "Phat",
+    "surname": "Wangrungarun",
+    "isAdmin": true
+  },
+  "content": "New comment!",
+  "parentId": -1
+}
+```
+
 > 3. For any given library catalogue item, it should be possible to obtain the comments
 posted. A paging feature should allow users to select 20, 50 or 100 comments at a
 time.

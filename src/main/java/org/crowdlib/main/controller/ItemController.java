@@ -79,7 +79,7 @@ public class ItemController {
                 null
         );
 
-        return Response.ok().build();
+        return Response.ok(g.toJson(new CommentDecorator(c))).build();
     }
 
     @POST
