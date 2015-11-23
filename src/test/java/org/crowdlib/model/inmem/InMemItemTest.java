@@ -90,8 +90,9 @@ public class InMemItemTest {
         Item i1 = InMemItem.add("Test 1", mockUser);
 
         assertEquals(1, i1.getFollowings().size());
-
         assertNull(i1.follow(mockUser));
         assertEquals(1, i1.getFollowings().size());
+        assertTrue(i1.unFollow(mockUser));
+        assertEquals(0, i1.getFollowings().size());
     }
 }

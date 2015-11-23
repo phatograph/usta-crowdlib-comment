@@ -154,10 +154,12 @@ public class InMemCommentTest {
         Item i1 = InMemItem.add("Test 1", mockUser);
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
 
-        c1.favourite(mockUser);
+        assertNotNull(c1.favourite(mockUser));
         assertEquals(1, mockUser.getFavourites().size());
-        c1.favourite(mockUser);
+        assertNull(c1.favourite(mockUser));
         assertEquals(1, mockUser.getFavourites().size());
+        assertTrue(c1.unFavourite(mockUser));
+        assertEquals(0, mockUser.getFavourites().size());
     }
 }
 
