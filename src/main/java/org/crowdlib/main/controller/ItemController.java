@@ -72,7 +72,7 @@ public class ItemController {
         JsonObject jo = json.getAsJsonObject();
 
         // TODO: move to model
-        Comment c = new InMemComment(
+        Comment c = InMemComment.add(
                 jo.get("content").getAsString(),
                 InMemUser.getCurrentUser(),
                 InMemItem.get(id),

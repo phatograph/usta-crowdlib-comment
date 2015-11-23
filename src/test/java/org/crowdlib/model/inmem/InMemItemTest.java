@@ -3,9 +3,6 @@ package org.crowdlib.model.inmem;
 import org.crowdlib.model.Comment;
 import org.crowdlib.model.Item;
 import org.crowdlib.model.User;
-import org.crowdlib.model.mock.MockUser;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -24,13 +21,13 @@ public class InMemItemTest extends BaseTest {
     public void getComments() {
         Item i1 = InMemItem.add("Test 1", mockUser);
         Item i2 = InMemItem.add("Test 1", mockUser);
-        Comment c1 = new InMemComment("Comment 1-1", mockUser, i1, null);
-        Comment c2 = new InMemComment("Comment 1-2", mockUser, i1, null);
-        Comment c3 = new InMemComment("Comment 2-1", mockUser, i2, null);
+        Comment c1 = InMemComment.add("Comment 1-1", mockUser, i1, null);
+        Comment c2 = InMemComment.add("Comment 1-2", mockUser, i1, null);
+        Comment c3 = InMemComment.add("Comment 2-1", mockUser, i2, null);
 
-        Comment c11 = new InMemComment("Comment 1-1", mockUser, i1, c1);
-        Comment c12 = new InMemComment("Comment 1-2", mockUser, i1, c1);
-        Comment c13 = new InMemComment("Comment 2-1", mockUser, i2, c1);
+        Comment c11 = InMemComment.add("Comment 1-1", mockUser, i1, c1);
+        Comment c12 = InMemComment.add("Comment 1-2", mockUser, i1, c1);
+        Comment c13 = InMemComment.add("Comment 2-1", mockUser, i2, c1);
 
         assertEquals(6, InMemComment.getAll().size());
         assertEquals(2, i1.getComments().size());
@@ -41,9 +38,9 @@ public class InMemItemTest extends BaseTest {
     @Test
     public void getCommentsLimit() {
         Item i1 = InMemItem.add("Test 1", mockUser);
-        Comment c1 = new InMemComment("Comment 1", mockUser, i1, null);
-        Comment c2 = new InMemComment("Comment 2", mockUser, i1, null);
-        Comment c3 = new InMemComment("Comment 3", mockUser, i1, null);
+        Comment c1 = InMemComment.add("Comment 1", mockUser, i1, null);
+        Comment c2 = InMemComment.add("Comment 2", mockUser, i1, null);
+        Comment c3 = InMemComment.add("Comment 3", mockUser, i1, null);
 
         assertEquals(3, i1.getComments(0, 0).size());
 
@@ -80,5 +77,30 @@ public class InMemItemTest extends BaseTest {
         assertEquals(1, i1.getFollowings().size());
         assertTrue(i1.unFollow(mockUser));
         assertEquals(0, i1.getFollowings().size());
+    }
+
+    @Test
+    public void notification() {
+        User anotherUser = new InMemUser();
+        User yetAnotherUser = new InMemUser();
+        Item i1 = InMemItem.add("Test 1", mockUser);
+        assertEquals(0, InMemNotification.getAll().size());
+        assertEquals(1, i1.getFollowings().size());
+        assertEquals(mockUser, i1.getFollowings().get(0).getUser());
+
+        Comment c1 = InMemComment.add("Comment 1", anotherUser, i1, null);
+
+        assertEquals(1, InMemNotification.getAll().size());
+
+        i1.follow(anotherUser);
+        Comment c2 = InMemComment.add("Comment 1", yetAnotherUser, i1, null);
+        assertEquals(3, InMemNotification.getAll().size());
+    }
+
+    @Test
+    public void notificationNotToSelf() {
+        Item i1 = InMemItem.add("Test 1", mockUser);
+        Comment c1 = InMemComment.add("Comment 1", mockUser, i1, null);
+        assertEquals(0, InMemNotification.getAll().size());
     }
 }

@@ -1,9 +1,6 @@
 package org.crowdlib.model.inmem;
 
-import org.crowdlib.model.Comment;
-import org.crowdlib.model.Favourite;
-import org.crowdlib.model.Item;
-import org.crowdlib.model.User;
+import org.crowdlib.model.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -145,7 +142,7 @@ public class InMemComment implements Comment {
 
     @Override
     public boolean unFavourite(User user) {
-        for (Favourite f: getFavourites()) {
+        for (Favourite f : getFavourites()) {
             if (f.getUser() == user) {
                 f.delete();
                 return true;
@@ -169,5 +166,26 @@ public class InMemComment implements Comment {
 
     public static ArrayList<Comment> getAll() {
         return list;
+    }
+
+    public static Comment add(String content, User user, Item item, Comment comment) {
+        Comment c = new InMemComment(
+                content,
+                user,
+                item,
+                comment
+        );
+
+        for (Following f : item.getFollowings()) {
+            // Do not notify commenter.
+            if (f.getUser() != user) {
+                Notification n = new InMemNotification(
+                        f.getUser(),
+                        comment
+                );
+            }
+        }
+
+        return c;
     }
 }

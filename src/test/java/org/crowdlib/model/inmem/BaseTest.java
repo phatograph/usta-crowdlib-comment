@@ -20,5 +20,6 @@ public class BaseTest {
         InMemComment.getAll().clear();
         InMemFavourite.getAll().clear();
         InMemFollowing.getAll().clear();
+        InMemNotification.getAll().clear();
     }
 }

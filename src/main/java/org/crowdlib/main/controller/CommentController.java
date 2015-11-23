@@ -41,7 +41,7 @@ public class CommentController {
         Comment parent = InMemComment.get(id);
 
         // TODO: move to model
-        Comment c = new InMemComment(
+        Comment c = InMemComment.add(
                 jo.get("content").getAsString(),
                 InMemUser.getCurrentUser(),
                 parent.getItem(),

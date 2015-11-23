@@ -29,9 +29,9 @@ public class InMemUserTest extends BaseTest {
         InMemUser.setCurrentUser(mockUser);
         User anotherUser = new InMemUser();
         Item i1 = InMemItem.add("Test 1", mockUser);
-        Comment c1 = new InMemComment("Comment 1", mockUser, i1, null);
-        Comment c11 = new InMemComment("Comment 1-1", mockUser, i1, c1);
-        Comment c2 = new InMemComment("Comment 2", mockUser, i1, null);
+        Comment c1 = InMemComment.add("Comment 1", mockUser, i1, null);
+        Comment c11 = InMemComment.add("Comment 1-1", mockUser, i1, c1);
+        Comment c2 = InMemComment.add("Comment 2", mockUser, i1, null);
 
         c1.favourite(mockUser);
         c1.favourite(anotherUser);
