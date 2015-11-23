@@ -9,10 +9,7 @@ import org.crowdlib.model.inmem.InMemItem;
 import org.crowdlib.model.inmem.InMemUser;
 
 import javax.naming.ldap.HasControls;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -48,6 +45,16 @@ public class UserController {
         HashMap h = new HashMap();
         ArrayList<Favourite> result = InMemUser.getCurrentUser().getFavourites();
         return Response.ok(g.toJson(FavouriteDecorator.decorate(result))).build();
+    }
+
+    @PUT
+    @Path("{id}/act")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response act(@PathParam("id") int id) {
+        User u = InMemUser.get(id);
+        InMemUser.setCurrentUser(u);
+        return Response.ok(g.toJson(u)).build();
     }
 }
 

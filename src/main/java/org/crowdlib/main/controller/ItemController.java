@@ -62,7 +62,7 @@ public class ItemController {
     }
 
     @POST
-    @Path("{id}/comments")
+    @Path("{id}/reply")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addComment(@PathParam("id") int id, InputStream is) {
