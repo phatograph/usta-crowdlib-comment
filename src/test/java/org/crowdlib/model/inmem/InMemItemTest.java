@@ -5,23 +5,12 @@ import org.crowdlib.model.Item;
 import org.crowdlib.model.User;
 import org.crowdlib.model.mock.MockUser;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class InMemItemTest {
-    User mockUser = new MockUser();
-
-    @After
-    public void after() {
-        InMemUser.getAll().clear();
-        InMemItem.getAll().clear();
-        InMemComment.getAll().clear();
-        InMemFavourite.getAll().clear();
-        InMemFollowing.getAll().clear();
-        InMemUser.setCurrentUser(null);
-    }
-
+public class InMemItemTest extends BaseTest {
     @Test
     public void getAll() {
         Item i1 = InMemItem.add("Test 1", mockUser);
@@ -71,7 +60,6 @@ public class InMemItemTest {
     @Test
     public void followings() {
         User anotherUser = new InMemUser();
-        InMemUser.setCurrentUser(mockUser);
 
         Item i1 = InMemItem.add("Test 1", mockUser);
 
@@ -85,8 +73,6 @@ public class InMemItemTest {
 
     @Test
     public void reFollowings() {
-        InMemUser.setCurrentUser(mockUser);
-
         Item i1 = InMemItem.add("Test 1", mockUser);
 
         assertEquals(1, i1.getFollowings().size());

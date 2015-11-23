@@ -6,25 +6,14 @@ import org.crowdlib.model.Item;
 import org.crowdlib.model.User;
 import org.crowdlib.model.mock.MockUser;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
 
 import static org.junit.Assert.*;
 
-public class InMemCommentTest {
-    User mockUser = new MockUser();
-
-    @After
-    public void after() {
-        InMemUser.getAll().clear();
-        InMemItem.getAll().clear();
-        InMemComment.getAll().clear();
-        InMemFavourite.getAll().clear();
-        InMemFollowing.getAll().clear();
-        InMemUser.setCurrentUser(null);
-    }
-
+public class InMemCommentTest extends BaseTest {
     @Test
     public void timestampTest() {
         Item i1 = InMemItem.add("Test 1", mockUser);
@@ -80,7 +69,6 @@ public class InMemCommentTest {
 
     @Test
     public void deleteComment() {
-        InMemUser.setCurrentUser(mockUser);
         Item i1 = InMemItem.add("Test 1", mockUser);
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
 
@@ -90,7 +78,6 @@ public class InMemCommentTest {
 
     @Test
     public void deleteCommentNotOwn() {
-        InMemUser.setCurrentUser(mockUser);
         User anotherUser = new InMemUser();
         Item i1 = InMemItem.add("Test 1", mockUser);
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
@@ -102,7 +89,6 @@ public class InMemCommentTest {
 
     @Test
     public void restoreComment() {
-        InMemUser.setCurrentUser(mockUser);
         User anotherUser = new InMemUser();
         Item i1 = InMemItem.add("Test 1", mockUser);
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
@@ -131,9 +117,8 @@ public class InMemCommentTest {
     }
 
     @Test
-    public void testFavourite() {
+    public void favourite() {
         User anotherUser = new InMemUser();
-        InMemUser.setCurrentUser(mockUser);
 
         Item i1 = InMemItem.add("Test 1", mockUser);
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
@@ -148,9 +133,7 @@ public class InMemCommentTest {
     }
 
     @Test
-    public void testReFavourite() {
-        InMemUser.setCurrentUser(mockUser);
-
+    public void reFavourite() {
         Item i1 = InMemItem.add("Test 1", mockUser);
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
 
@@ -160,6 +143,12 @@ public class InMemCommentTest {
         assertEquals(1, mockUser.getFavourites().size());
         assertTrue(c1.unFavourite(mockUser));
         assertEquals(0, mockUser.getFavourites().size());
+    }
+
+    @Test
+    public void following() {
+        Item i1 = InMemItem.add("Test 1", mockUser);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
     }
 }
 

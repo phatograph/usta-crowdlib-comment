@@ -5,20 +5,12 @@ import org.crowdlib.model.Item;
 import org.crowdlib.model.User;
 import org.crowdlib.model.mock.MockUser;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class InMemUserTest {
-    User mockUser = new MockUser();
-
-    @After
-    public void after() {
-        InMemItem.getAll().clear();
-        InMemComment.getAll().clear();
-        InMemFavourite.getAll().clear();
-    }
-
+public class InMemUserTest extends BaseTest {
     @Test
     public void getId() {
         assertEquals(0, mockUser.getID());
