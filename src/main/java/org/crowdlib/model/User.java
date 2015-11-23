@@ -53,5 +53,7 @@ public interface User {
     ArrayList<Favourite> getFavourites();
     Favourite favourite(Comment comment);
     boolean unFavourite(Comment comment);
+
+    ArrayList<Notification> getNotifications();
 }
 

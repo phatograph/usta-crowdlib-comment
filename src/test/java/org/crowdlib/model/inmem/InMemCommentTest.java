@@ -163,5 +163,7 @@ public class InMemCommentTest extends BaseTest {
         i1.follow(anotherUser);
         Comment c4 = InMemComment.add("Comment 1", yetAnotherUser, i1, c2);
         assertEquals(4, InMemNotification.getAll().size());
+        assertEquals(3, mockUser.getNotifications().size());
+        assertEquals(1, anotherUser.getNotifications().size());
     }
 }

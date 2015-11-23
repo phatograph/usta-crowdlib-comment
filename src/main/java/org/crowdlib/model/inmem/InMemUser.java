@@ -6,10 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.crowdlib.model.Comment;
-import org.crowdlib.model.Favourite;
-import org.crowdlib.model.Item;
-import org.crowdlib.model.User;
+import org.crowdlib.model.*;
 
 public class InMemUser implements User {
     private long id;
@@ -123,6 +120,19 @@ public class InMemUser implements User {
         }
 
         return false;
+    }
+
+    @Override
+    public ArrayList<Notification> getNotifications() {
+        ArrayList<Notification> results = new ArrayList();
+
+        for (Notification x : InMemNotification.getAll()) {
+            if (x.getUser() == this) {
+                results.add(x);
+            }
+        }
+
+        return results;
     }
 
     // STATIC METHODS
