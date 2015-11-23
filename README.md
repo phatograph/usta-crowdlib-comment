@@ -417,13 +417,13 @@ $ curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s | jq
 ##### Get all users
 
 ``` bash
-curl -H "Content-Type: application/json" http://localhost:9998/users -s 
+curl -H "Content-Type: application/json" http://localhost:9998/users
 ```
 
 ##### Get a single user
 
 ``` bash
-curl -H "Content-Type: application/json" http://localhost:9998/users/0
+curl -H "Content-Type: application/json" http://localhost:9998/users/{user_id}
 ```
 
 ##### Get a user favoured comments
@@ -431,31 +431,31 @@ curl -H "Content-Type: application/json" http://localhost:9998/users/0
 Note that you can see other's as well by specifying an id.
 
 ``` bash
-curl -H "Content-Type: application/json" http://localhost:9998/users/0/favourites -s
+curl -H "Content-Type: application/json" http://localhost:9998/users/{user_id}/favourites
 ```
 
 ##### Change current active user
 
 ``` bash
-curl -v -H "Content-Type: application/json" -X PUT http://localhost:9998/users/{user_id}/act  
+curl -H "Content-Type: application/json" -X PUT http://localhost:9998/users/{user_id}/act  
 ```
 
 ##### Get followings items
 
 ``` bash
-curl -v -H "Content-Type: application/json" http://localhost:9998/users/followings
+curl -H "Content-Type: application/json" http://localhost:9998/users/followings
 ```
 
 ##### Get notifications
 
 ``` bash
-curl -v -H "Content-Type: application/json" http://localhost:9998/users/notifications
+curl -H "Content-Type: application/json" http://localhost:9998/users/notifications
 ```
 
 ##### Mark notifications as read
 
 ``` bash
-curl -v -H "Content-Type: application/json" -X PUT http://localhost:9998/users/notifications
+curl -H "Content-Type: application/json" -X PUT http://localhost:9998/users/notifications
 ```
 
 ### Items
@@ -463,13 +463,13 @@ curl -v -H "Content-Type: application/json" -X PUT http://localhost:9998/users/n
 ##### Get all items
 
 ``` bash
-curl -H "Content-Type: application/json" http://localhost:9998/items -s
+curl -H "Content-Type: application/json" http://localhost:9998/items
 ```
 
 ##### Get a single item
 
 ``` bash
-curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s
+curl -H "Content-Type: application/json" http://localhost:9998/items/{item_id}
 ```
 
 ##### Create a new item
@@ -484,19 +484,19 @@ curl -H "Content-Type: application/json" -X POST -d '{"content":"Turkish goes to
 ##### Post a comment to an item
 
 ``` bash
-curl -H "Content-Type: application/json" -X POST -d '{"content":"New comment"}' http://localhost:9998/items/0/reply
+curl -H "Content-Type: application/json" -X POST -d '{"content":"New comment"}' http://localhost:9998/items/{item_id}/reply
 ```
 
 ##### Follow an item
 
 ``` bash
-curl -H "Content-Type: application/json" -X POST http://localhost:9998/items/0/follow
+curl -H "Content-Type: application/json" -X POST http://localhost:9998/items/{item_id}/follow
 ```
 
 ##### Unfollow an item
 
 ``` bash
-curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/items/0/unfollow
+curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/items/{item_id}/unfollow
 ```
 
 ### Comments
@@ -506,7 +506,7 @@ curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/items/0
 Note that this will only return nested comments, not the comment itself.
 
 ``` bash
-curl -H "Content-Type: application/json" http://localhost:9998/comments/0 -s
+curl -H "Content-Type: application/json" http://localhost:9998/comments/{comment_id}
 ```
 
 ##### Post a comment to another comment
@@ -514,34 +514,34 @@ curl -H "Content-Type: application/json" http://localhost:9998/comments/0 -s
 Aka create a nested comment.
 
 ``` bash
-curl -H "Content-Type: application/json" -X POST -d '{"content":"New comment"}' http://localhost:9998/comments/0/reply
+curl -H "Content-Type: application/json" -X POST -d '{"content":"New comment"}' http://localhost:9998/comments/{comment_id}/reply
 ```
 
 ##### Remove a comment
 
 ``` bash
-curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/comments/2
+curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/comments/{comment_id}
 ```
 
 ##### Restore a comment
 
 ``` bash
-curl -H "Content-Type: application/json" -X PUT http://localhost:9998/comments/2/restore
+curl -H "Content-Type: application/json" -X PUT http://localhost:9998/comments/{comment_id}/restore
 ```
 
 ##### Favourite a comment
 
 ``` bash
-curl -H "Content-Type: application/json" -X POST http://localhost:9998/comments/2/favourite
+curl -H "Content-Type: application/json" -X POST http://localhost:9998/comments/{comment_id}/favourite
 ```
 
 ##### Unfavourite a comment
 
 ``` bash
-curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/comments/2/unfavourite
+curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/comments/{comment_id}/unfavourite
 ```
 
 ## CORS
 
-`CORSResponseFilter` which deal with [HTTP access control (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS)
-is credited to student whose id is 14250136!
+`CORSResponseFilter` which deals with [HTTP access control (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS)
+is credited to student whose id is `14250136`!
