@@ -108,6 +108,29 @@ public class InMemUser implements User {
         return results;
     }
 
+    @Override
+    public Favourite favourite(Comment comment) {
+        // TODO: move to model.
+        Favourite f = new InMemFavourite(
+                this,
+                comment
+        );
+
+        return f;
+    }
+
+    @Override
+    public boolean unFavourite(Comment comment) {
+        for (Favourite f : getFavourites()) {
+            if (f.getComment() == this) {
+                f.delete();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     // STATIC METHODS
 
     public static User get(long id) {

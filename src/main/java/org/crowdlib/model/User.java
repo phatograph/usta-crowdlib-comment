@@ -51,5 +51,7 @@ public interface User {
     User setIsAdmin(boolean isAdmin);
 
     ArrayList<Favourite> getFavourites();
+    Favourite favourite(Comment comment);
+    boolean unFavourite(Comment comment);
 }
 

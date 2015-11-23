@@ -41,10 +41,9 @@ public class InMemUserTest {
         Comment c11 = new InMemComment("Comment 1-1", mockUser, i1, c1);
         Comment c2 = new InMemComment("Comment 2", mockUser, i1);
 
-
         c1.favourite(mockUser);
         c1.favourite(anotherUser);
-        c1.favourite(anotherUser);
+        anotherUser.favourite(c1);
 
         assertEquals(3, InMemFavourite.getAll().size());
         assertEquals(1, mockUser.getFavourites().size());
