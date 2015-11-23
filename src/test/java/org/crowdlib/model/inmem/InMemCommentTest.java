@@ -135,9 +135,13 @@ public class InMemCommentTest {
         Comment c2 = new InMemComment("Comment 2", anotherUser, i1);
 
         c1.favourite(mockUser);
+
         assertEquals(1, InMemFavourite.getAll().size());
         assertFalse(c1.unFavourite(anotherUser));
         assertTrue(c1.unFavourite(mockUser));
+
+        assertEquals(1, c1.getFavourites().size());
+        assertEquals(mockUser, c1.getFavourites().get(0).getUser());
     }
 }
 

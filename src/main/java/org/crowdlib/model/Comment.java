@@ -20,6 +20,7 @@ public interface Comment {
     Comment delete();
     Comment restore();
 
+    ArrayList<Favourite> getFavourites();
     Favourite favourite(User user);
     boolean unFavourite(User user);
 }

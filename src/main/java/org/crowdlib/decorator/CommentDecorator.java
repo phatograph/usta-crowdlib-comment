@@ -13,6 +13,7 @@ public class CommentDecorator extends HashMap {
         put("user", c.getUser());
         put("parentId", c.getParent() == null ? -1 : c.getParent().getID());
         put("itemId", c.getItem() == null ? -1 : c.getItem().getID());
+        put("favourites", c.getFavourites().size());
     }
 
     public static ArrayList<CommentDecorator> decorate(ArrayList<Comment> comments) {

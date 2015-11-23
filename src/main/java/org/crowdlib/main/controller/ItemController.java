@@ -70,6 +70,7 @@ public class ItemController {
         JsonElement json = parser.parse(new InputStreamReader(is));
         JsonObject jo = json.getAsJsonObject();
 
+        // TODO: move to model
         Comment c = new InMemComment(
                 jo.get("content").getAsString(),
                 InMemUser.getCurrentUser(),

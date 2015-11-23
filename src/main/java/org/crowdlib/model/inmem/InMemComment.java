@@ -88,6 +88,7 @@ public class InMemComment implements Comment {
     @Override
     public ArrayList<Comment> getComments() {
         ArrayList<Comment> results = new ArrayList();
+
         for (Comment x : list) {
             if (x.getParent() == this) {
                 results.add(x);
@@ -131,6 +132,19 @@ public class InMemComment implements Comment {
         }
 
         return null;
+    }
+
+    @Override
+    public ArrayList<Favourite> getFavourites() {
+        ArrayList<Favourite> results = new ArrayList();
+
+        for (Favourite x : InMemFavourite.getAll()) {
+            if (x.getComment() == this) {
+                results.add(x);
+            }
+        }
+
+        return results;
     }
 
     @Override

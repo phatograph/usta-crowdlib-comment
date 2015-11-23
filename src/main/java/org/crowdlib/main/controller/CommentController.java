@@ -90,7 +90,7 @@ public class CommentController {
         return Response.ok().build();
     }
 
-    @POST
+    @DELETE
     @Path("{id}/unfavourite")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

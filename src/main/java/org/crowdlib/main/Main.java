@@ -9,6 +9,7 @@ import org.crowdlib.model.Comment;
 import org.crowdlib.model.Item;
 import org.crowdlib.model.User;
 import org.crowdlib.model.inmem.InMemComment;
+import org.crowdlib.model.inmem.InMemFavourite;
 import org.crowdlib.model.inmem.InMemItem;
 import org.crowdlib.model.inmem.InMemUser;
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -79,5 +80,7 @@ public final class Main {
             Comment tmp = i1.getComments().get(1);
             new InMemComment(String.format("Comment %s-%s", tmp.getID(), i), u2, tmp.getItem(), tmp);
         }
+
+        new InMemFavourite(u1, c1);
     }
 }
