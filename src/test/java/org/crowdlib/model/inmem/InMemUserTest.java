@@ -25,6 +25,15 @@ public class InMemUserTest extends BaseTest {
     }
 
     @Test
+    public void getFollowings() {
+        User anotherUser = new InMemUser();
+        Item i1 = InMemItem.add("Test 1", mockUser);
+        Item i2 = InMemItem.add("Test 1", anotherUser);
+        assertEquals(2, InMemFollowing.getAll().size());
+        assertEquals(1, mockUser.getFollowings().size());
+    }
+
+    @Test
     public void getFavourites() {
         InMemUser.setCurrentUser(mockUser);
         User anotherUser = new InMemUser();

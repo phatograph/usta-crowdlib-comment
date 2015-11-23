@@ -143,6 +143,19 @@ public class InMemUser implements User {
         }
     }
 
+    @Override
+    public ArrayList<Following> getFollowings() {
+        ArrayList<Following> results = new ArrayList();
+
+        for (Following x : InMemFollowing.getAll()) {
+            if (x.getUser() == this) {
+                results.add(x);
+            }
+        }
+
+        return results;
+    }
+
     // STATIC METHODS
 
     public static User get(long id) {

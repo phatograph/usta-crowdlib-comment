@@ -56,5 +56,7 @@ public interface User {
 
     ArrayList<Notification> getNotifications();
     void readNotifications();
+
+    ArrayList<Following> getFollowings();
 }
 
