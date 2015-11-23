@@ -87,7 +87,7 @@ public class CommentController {
         Comment c = InMemComment.get(id);
         c.favourite(InMemUser.getCurrentUser());
 
-        return Response.ok().build();
+        return Response.ok(g.toJson(true)).build();
     }
 
     @DELETE

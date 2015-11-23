@@ -20,7 +20,7 @@ let ItemBox = React.createClass({
       type: 'POST',
       data: JSON.stringify(item),
       success: function(data) {
-        this.setState({data: this.state.data.concat([data])});
+        this.loadItemsFromServer();
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -80,7 +80,7 @@ let Item = React.createClass({
 
 let ItemForm = React.createClass({
   getInitialState: function() {
-    return {content: ''};
+    return {title: ''};
   },
   handleTitleChange: function(e) {
     this.setState({title: e.target.value});
@@ -110,7 +110,7 @@ let ItemForm = React.createClass({
 });
 
 let ItemInfo = React.createClass({
-  loadItemsFromServer: function() {
+  loadItemsFromServer() {
     $.ajax({
       url: `${this.state.url}/${this.props.params.id}`,
       dataType: 'json',
@@ -123,22 +123,40 @@ let ItemInfo = React.createClass({
       }.bind(this)
     });
   },
-  handleItemSubmit: function(item) {
-    // $.ajax({
-    //   url: "http://localhost:9998/items",
-    //   dataType: 'json',
-    //   contentType: 'application/json',
-    //   type: 'POST',
-    //   data: JSON.stringify(item),
-    //   success: function(data) {
-    //     this.setState({data: this.state.data.concat([data])});
-    //   }.bind(this),
-    //   error: function(xhr, status, err) {
-    //     console.error(this.props.url, status, err.toString());
-    //   }.bind(this)
-    // });
+  handleItemSubmit(x) {
+    $.ajax({
+      url: `${this.state.url}/${this.props.params.id}/reply`,
+      dataType: 'json',
+      contentType: 'application/json',
+      type: 'POST',
+      data: JSON.stringify(x),
+      success: function(data) {
+        this.loadItemsFromServer();
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
   },
-  getInitialState: function() {
+  onFavourite(e) {
+    e.preventDefault();
+
+    $.ajax({
+      url: `http://localhost:9998/comments/${e.target.rel}/favourite`,
+      dataType: 'json',
+      contentType: 'application/json',
+      type: 'POST',
+      success: function(data) {
+        if (data) {
+          this.loadItemsFromServer()
+        }
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  getInitialState() {
     return {
       url: 'http://localhost:9998/items',
       data: {
@@ -147,33 +165,66 @@ let ItemInfo = React.createClass({
       }
     };
   },
-  componentDidMount: function() {
+  componentDidMount() {
     this.loadItemsFromServer();
-    // setInterval(this.loadItemsFromServer, this.props.pollInterval);
   },
   render: function() {
     return (
         <div className="itemInfo">
         <h2>{this.state.data.item.title}</h2>
-        <CommentList data={this.state.data.comments} />
+        <CommentList onFavourite={this.onFavourite} data={this.state.data.comments} />
+        <CommentForm onItemSubmit={this.handleItemSubmit} />
         </div>
         );
   }
 });
 
 let CommentList = React.createClass({
-  render: function() {
-    let comments = this.props.data.map(function(comment) {
-      return (
+  render() {
+    let comments = this.props.data.map((comment) => (
           <div key={comment.id}>
-          {comment.content}
+          <div>
+          {comment.content} – {comment.user.name} –
+          {comment.date} – {comment.favourites} –
+          <a href="#" rel={comment.id} onClick={this.props.onFavourite}>fav</a>
           </div>
-          );
-    });
+          </div>
+          ));
     return (
         <div className="commentList">
         {comments}
         </div>
+        );
+  }
+});
+
+let CommentForm = React.createClass({
+  getInitialState: function() {
+    return {content: ''};
+  },
+  handleContentChange: function(e) {
+    this.setState({content: e.target.value});
+  },
+  handleSubmit: function(e) {
+    e.preventDefault();
+    let content = this.state.content.trim();
+    if (!content) {
+      return;
+    }
+    this.props.onItemSubmit({content: content});
+    this.setState({content: ''});
+  },
+  render: function() {
+    return (
+        <form className="itemForm" onSubmit={this.handleSubmit}>
+        <input
+        type="text"
+        placeholder="Content"
+        value={this.state.content}
+        onChange={this.handleContentChange}
+        />
+        <input type="submit" value="Post" />
+        </form>
         );
   }
 });
