@@ -1,7 +1,7 @@
-var ItemBox = React.createClass({
+let ItemBox = React.createClass({
   loadItemsFromServer: function() {
     $.ajax({
-      url: this.props.url,
+      url: this.state.url,
       dataType: 'json',
       cache: false,
       success: function(data) {
@@ -14,7 +14,7 @@ var ItemBox = React.createClass({
   },
   handleItemSubmit: function(item) {
     $.ajax({
-      url: "http://localhost:9998/items",
+      url: this.state.url,
       dataType: 'json',
       contentType: 'application/json',
       type: 'POST',
@@ -28,11 +28,15 @@ var ItemBox = React.createClass({
     });
   },
   getInitialState: function() {
-    return {data: []};
+    return {
+      pollInterval: 200,
+      url: 'http://localhost:9998/items',
+      data: []
+    };
   },
   componentDidMount: function() {
     this.loadItemsFromServer();
-    // setInterval(this.loadItemsFromServer, this.props.pollInterval);
+    // setInterval(this.loadItemsFromServer, this.pollInterval);
   },
   render: function() {
     return (
@@ -45,9 +49,9 @@ var ItemBox = React.createClass({
   }
 });
 
-var ItemList = React.createClass({
+let ItemList = React.createClass({
   render: function() {
-    var itemNodes = this.props.data.map(function(item) {
+    let itemNodes = this.props.data.map(function(item) {
       return (
           <Item title={item.title} id={item.id} key={item.id}>
           {`${item.user.name} ${item.user.surname}`}
@@ -62,7 +66,7 @@ var ItemList = React.createClass({
   }
 });
 
-var Item = React.createClass({
+let Item = React.createClass({
   render: function() {
     let link = `#/items/${this.props.id}`;
     return (
@@ -74,7 +78,7 @@ var Item = React.createClass({
   }
 });
 
-var ItemForm = React.createClass({
+let ItemForm = React.createClass({
   getInitialState: function() {
     return {content: ''};
   },
@@ -83,7 +87,7 @@ var ItemForm = React.createClass({
   },
   handleSubmit: function(e) {
     e.preventDefault();
-    var title = this.state.title.trim();
+    let title = this.state.title.trim();
     if (!title) {
       return;
     }
@@ -105,19 +109,19 @@ var ItemForm = React.createClass({
   }
 });
 
-var ItemInfo = React.createClass({
+let ItemInfo = React.createClass({
   loadItemsFromServer: function() {
-    // $.ajax({
-    //   url: this.props.url,
-    //   dataType: 'json',
-    //   cache: false,
-    //   success: function(data) {
-    //     this.setState({data: data});
-    //   }.bind(this),
-    //   error: function(xhr, status, err) {
-    //     console.error(this.props.url, status, err.toString());
-    //   }.bind(this)
-    // });
+    $.ajax({
+      url: `${this.state.url}/${this.props.params.id}`,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
   },
   handleItemSubmit: function(item) {
     // $.ajax({
@@ -135,42 +139,64 @@ var ItemInfo = React.createClass({
     // });
   },
   getInitialState: function() {
-    return {data: []};
+    return {
+      url: 'http://localhost:9998/items',
+      data: {
+        item: {},
+        comments: []
+      }
+    };
   },
   componentDidMount: function() {
-    // this.loadItemsFromServer();
+    this.loadItemsFromServer();
     // setInterval(this.loadItemsFromServer, this.props.pollInterval);
   },
   render: function() {
     return (
-        <div className="itemBox">
-        <h2>Items</h2>
+        <div className="itemInfo">
+        <h2>{this.state.data.item.title}</h2>
+        <CommentList data={this.state.data.comments} />
+        </div>
+        );
+  }
+});
+
+let CommentList = React.createClass({
+  render: function() {
+    let comments = this.props.data.map(function(comment) {
+      return (
+          <div key={comment.id}>
+          {comment.content}
+          </div>
+          );
+    });
+    return (
+        <div className="commentList">
+        {comments}
         </div>
         );
   }
 });
 
 const App = React.createClass({
-  getInitialState() {
-    return {
-      route: window.location.hash.substr(1)
-    }
-  },
-
-  componentDidMount() {
-    window.addEventListener('hashchange', () => {
-      this.setState({
-        route: window.location.hash.substr(1)
-      })
-    })
-  },
-
   render() {
-    switch (this.state.route) {
-      case '/items': return (<ItemInfo />)
-      default: return (<ItemBox url="http://localhost:9998/items" pollInterval={200} />)
-    }
+    return (
+      <div>
+        <a href="#/items"><h1>App</h1></a>
+        {this.props.children}
+      </div>
+    )
   }
 })
 
-ReactDOM.render(<App />, document.getElementById('content'))
+let Route = window.ReactRouter.Route;
+let Router = window.ReactRouter.Router;
+
+ReactDOM.render((
+  <Router>
+    <Route path="/" component={App}>
+      <Route path="/items" component={ItemBox} />
+      <Route path="items/:id" component={ItemInfo} />
+    </Route>
+  </Router>
+), document.getElementById('content'));
