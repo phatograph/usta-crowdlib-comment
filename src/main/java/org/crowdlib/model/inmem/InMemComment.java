@@ -22,21 +22,12 @@ public class InMemComment implements Comment {
     private static int count = 0;
     private static ArrayList<Comment> list = new ArrayList();
 
-    public InMemComment(String content, User user, Item item) {
-        this.content = content;
-        this.user = user;
-        this.item = item;
-        id = count++;
-        date = new Date();
-
-        InMemComment.list.add(this);
-    }
-
     public InMemComment(String content, User user, Item item, Comment parent) {
         this.content = content;
         this.user = user;
         this.item = item;
         this.parent = parent;
+        date = new Date();
         id = count++;
 
         InMemComment.list.add(this);

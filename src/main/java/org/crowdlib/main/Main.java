@@ -63,15 +63,15 @@ public final class Main {
 
         Item i1 = InMemItem.add("Lord of the Rings", u1);
 
-        Comment c1 = new InMemComment("Outstanding.", u1, i1);
-        new InMemComment("Wonderful.", u2, i1);
+        Comment c1 = new InMemComment("Outstanding.", u1, i1, null);
+        new InMemComment("Wonderful.", u2, i1, null);
         new InMemComment("Indeed.", u2, i1, c1);
         new InMemComment("Totally agreed.", u3, i1, c1);
 
         Item i2 = InMemItem.add("Last Fantasy", u2);
 
         for (int i = 0; i < 300; i++) {
-            new InMemComment(String.format("Comment %s", i), u3, i2);
+            new InMemComment(String.format("Comment %s", i), u3, i2, null);
         }
 
         for (int i = 0; i < 300; i++) {

@@ -24,9 +24,9 @@ public class InMemItemTest extends BaseTest {
     public void getComments() {
         Item i1 = InMemItem.add("Test 1", mockUser);
         Item i2 = InMemItem.add("Test 1", mockUser);
-        Comment c1 = new InMemComment("Comment 1-1", mockUser, i1);
-        Comment c2 = new InMemComment("Comment 1-2", mockUser, i1);
-        Comment c3 = new InMemComment("Comment 2-1", mockUser, i2);
+        Comment c1 = new InMemComment("Comment 1-1", mockUser, i1, null);
+        Comment c2 = new InMemComment("Comment 1-2", mockUser, i1, null);
+        Comment c3 = new InMemComment("Comment 2-1", mockUser, i2, null);
 
         Comment c11 = new InMemComment("Comment 1-1", mockUser, i1, c1);
         Comment c12 = new InMemComment("Comment 1-2", mockUser, i1, c1);
@@ -41,9 +41,9 @@ public class InMemItemTest extends BaseTest {
     @Test
     public void getCommentsLimit() {
         Item i1 = InMemItem.add("Test 1", mockUser);
-        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
-        Comment c2 = new InMemComment("Comment 2", mockUser, i1);
-        Comment c3 = new InMemComment("Comment 3", mockUser, i1);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1, null);
+        Comment c2 = new InMemComment("Comment 2", mockUser, i1, null);
+        Comment c3 = new InMemComment("Comment 3", mockUser, i1, null);
 
         assertEquals(3, i1.getComments(0, 0).size());
 

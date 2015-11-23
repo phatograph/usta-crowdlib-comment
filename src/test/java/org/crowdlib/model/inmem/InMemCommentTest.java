@@ -17,7 +17,7 @@ public class InMemCommentTest extends BaseTest {
     @Test
     public void timestampTest() {
         Item i1 = InMemItem.add("Test 1", mockUser);
-        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1, null);
         assertTrue(c1.getDate().getTime() <= (new Date()).getTime());
     }
 
@@ -25,7 +25,7 @@ public class InMemCommentTest extends BaseTest {
     public void getComments() {
         Item i1 = InMemItem.add("Test 1", mockUser);
 
-        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1, null);
 
         Comment c11 = new InMemComment("Comment 1-1", mockUser, i1, c1);
         Comment c12 = new InMemComment("Comment 1-2", mockUser, i1, c1);
@@ -50,7 +50,7 @@ public class InMemCommentTest extends BaseTest {
     @Test
     public void getCommentsLimit() {
         Item i1 = InMemItem.add("Test 1", mockUser);
-        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1, null);
         Comment c11 = new InMemComment("Comment 1-1", mockUser, i1, c1);
         Comment c12 = new InMemComment("Comment 1-2", mockUser, i1, c1);
         Comment c13 = new InMemComment("Comment 1-3", mockUser, i1, c1);
@@ -70,7 +70,7 @@ public class InMemCommentTest extends BaseTest {
     @Test
     public void deleteComment() {
         Item i1 = InMemItem.add("Test 1", mockUser);
-        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1, null);
 
         assertEquals(InMemComment.DELETE_MESSAGE_USER, c1.delete().getContent());
         assertEquals(InMemComment.DELETE_MESSAGE_USER, InMemComment.get(c1.getID()).getContent());
@@ -80,8 +80,8 @@ public class InMemCommentTest extends BaseTest {
     public void deleteCommentNotOwn() {
         User anotherUser = new InMemUser();
         Item i1 = InMemItem.add("Test 1", mockUser);
-        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
-        Comment c2 = new InMemComment("Comment 2", anotherUser, i1);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1, null);
+        Comment c2 = new InMemComment("Comment 2", anotherUser, i1, null);
 
         assertNotNull(c1.delete());
         assertNull(c2.delete());
@@ -91,8 +91,8 @@ public class InMemCommentTest extends BaseTest {
     public void restoreComment() {
         User anotherUser = new InMemUser();
         Item i1 = InMemItem.add("Test 1", mockUser);
-        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
-        Comment c2 = new InMemComment("Comment 2", anotherUser, i1);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1, null);
+        Comment c2 = new InMemComment("Comment 2", anotherUser, i1, null);
 
         assertNotNull(c1.delete());
         assertNotNull(c1.restore());
@@ -106,8 +106,8 @@ public class InMemCommentTest extends BaseTest {
         InMemUser.setCurrentUser(anotherUser);
 
         Item i1 = InMemItem.add("Test 1", mockUser);
-        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
-        Comment c2 = new InMemComment("Comment 2", anotherUser, i1);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1, null);
+        Comment c2 = new InMemComment("Comment 2", anotherUser, i1, null);
 
         assertNotNull(c1.delete());
         assertEquals(InMemComment.DELETE_MESSAGE_ADMIN, c1.getContent());
@@ -121,7 +121,7 @@ public class InMemCommentTest extends BaseTest {
         User anotherUser = new InMemUser();
 
         Item i1 = InMemItem.add("Test 1", mockUser);
-        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1, null);
 
         c1.favourite(mockUser);
         assertEquals(1, InMemFavourite.getAll().size());
@@ -135,7 +135,7 @@ public class InMemCommentTest extends BaseTest {
     @Test
     public void reFavourite() {
         Item i1 = InMemItem.add("Test 1", mockUser);
-        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1, null);
 
         assertNotNull(c1.favourite(mockUser));
         assertEquals(1, mockUser.getFavourites().size());
@@ -144,11 +144,4 @@ public class InMemCommentTest extends BaseTest {
         assertTrue(c1.unFavourite(mockUser));
         assertEquals(0, mockUser.getFavourites().size());
     }
-
-    @Test
-    public void following() {
-        Item i1 = InMemItem.add("Test 1", mockUser);
-        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
-    }
 }
-

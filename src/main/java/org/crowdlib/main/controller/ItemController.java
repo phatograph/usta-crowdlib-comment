@@ -75,7 +75,8 @@ public class ItemController {
         Comment c = new InMemComment(
                 jo.get("content").getAsString(),
                 InMemUser.getCurrentUser(),
-                InMemItem.get(id)
+                InMemItem.get(id),
+                null
         );
 
         return Response.ok().build();
