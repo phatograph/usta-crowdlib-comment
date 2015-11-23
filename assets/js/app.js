@@ -1,44 +1,44 @@
 let ItemBox = React.createClass({
-  loadItemsFromServer: function() {
+  loadItemsFromServer() {
     $.ajax({
       url: this.state.url,
       dataType: 'json',
       cache: false,
-      success: function(data) {
+      success: data => {
         this.setState({data: data});
       }.bind(this),
-      error: function(xhr, status, err) {
+      error: (xhr, status, err) => {
         console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
   },
-  handleItemSubmit: function(item) {
+  handleItemSubmit(item) {
     $.ajax({
       url: this.state.url,
       dataType: 'json',
       contentType: 'application/json',
       type: 'POST',
       data: JSON.stringify(item),
-      success: function(data) {
+      success: data => {
         this.loadItemsFromServer();
       }.bind(this),
-      error: function(xhr, status, err) {
+      error: (xhr, status, err) => {
         console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
   },
-  getInitialState: function() {
+  getInitialState() {
     return {
       pollInterval: 200,
       url: 'http://localhost:9998/items',
       data: []
     };
   },
-  componentDidMount: function() {
+  componentDidMount() {
     this.loadItemsFromServer();
     // setInterval(this.loadItemsFromServer, this.pollInterval);
   },
-  render: function() {
+  render() {
     return (
         <div className="itemBox">
         <h1>Items</h1>
@@ -50,8 +50,8 @@ let ItemBox = React.createClass({
 });
 
 let ItemList = React.createClass({
-  render: function() {
-    let itemNodes = this.props.data.map(function(item) {
+  render() {
+    let itemNodes = this.props.data.map(item => {
       return (
           <Item title={item.title} id={item.id} key={item.id}>
           {`${item.user.name} ${item.user.surname}`}
@@ -67,7 +67,7 @@ let ItemList = React.createClass({
 });
 
 let Item = React.createClass({
-  render: function() {
+  render() {
     let link = `#/items/${this.props.id}`;
     return (
         <div className="item">
@@ -79,13 +79,13 @@ let Item = React.createClass({
 });
 
 let ItemForm = React.createClass({
-  getInitialState: function() {
+  getInitialState() {
     return {title: ''};
   },
-  handleTitleChange: function(e) {
+  handleTitleChange(e) {
     this.setState({title: e.target.value});
   },
-  handleSubmit: function(e) {
+  handleSubmit(e) {
     e.preventDefault();
     let title = this.state.title.trim();
     if (!title) {
@@ -94,7 +94,7 @@ let ItemForm = React.createClass({
     this.props.onItemSubmit({title: title});
     this.setState({title: ''});
   },
-  render: function() {
+  render() {
     return (
         <form className="itemForm" onSubmit={this.handleSubmit}>
         <input
@@ -115,10 +115,10 @@ let ItemInfo = React.createClass({
       url: `${this.state.url}/${this.props.params.id}`,
       dataType: 'json',
       cache: false,
-      success: function(data) {
+      success: data => {
         this.setState({data: data});
       }.bind(this),
-      error: function(xhr, status, err) {
+      error: (xhr, status, err) => {
         console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
@@ -130,10 +130,10 @@ let ItemInfo = React.createClass({
       contentType: 'application/json',
       type: 'POST',
       data: JSON.stringify(x),
-      success: function(data) {
+      success: data => {
         this.loadItemsFromServer();
       }.bind(this),
-      error: function(xhr, status, err) {
+      error: (xhr, status, err) => {
         console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
@@ -146,12 +146,12 @@ let ItemInfo = React.createClass({
       dataType: 'json',
       contentType: 'application/json',
       type: 'POST',
-      success: function(data) {
+      success: data => {
         if (data) {
           this.loadItemsFromServer()
         }
       }.bind(this),
-      error: function(xhr, status, err) {
+      error: (xhr, status, err) => {
         console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
@@ -168,7 +168,7 @@ let ItemInfo = React.createClass({
   componentDidMount() {
     this.loadItemsFromServer();
   },
-  render: function() {
+  render() {
     return (
         <div className="itemInfo">
         <h2>{this.state.data.item.title}</h2>
@@ -199,13 +199,13 @@ let CommentList = React.createClass({
 });
 
 let CommentForm = React.createClass({
-  getInitialState: function() {
+  getInitialState() {
     return {content: ''};
   },
-  handleContentChange: function(e) {
+  handleContentChange(e) {
     this.setState({content: e.target.value});
   },
-  handleSubmit: function(e) {
+  handleSubmit(e) {
     e.preventDefault();
     let content = this.state.content.trim();
     if (!content) {
@@ -214,7 +214,7 @@ let CommentForm = React.createClass({
     this.props.onItemSubmit({content: content});
     this.setState({content: ''});
   },
-  render: function() {
+  render() {
     return (
         <form className="itemForm" onSubmit={this.handleSubmit}>
         <input
