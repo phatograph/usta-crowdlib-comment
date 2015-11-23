@@ -54,8 +54,7 @@ public class ItemController {
         JsonElement json = parser.parse(new InputStreamReader(is));
         JsonObject jo = json.getAsJsonObject();
 
-        // TODO: move to model
-        Item i = new InMemItem(
+        Item i = InMemItem.add(
                 jo.get("content").getAsString(),
                 InMemUser.getCurrentUser()
         );

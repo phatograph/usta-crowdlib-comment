@@ -22,17 +22,17 @@ public class InMemItemTest {
 
     @Test
     public void getAll() {
-        Item i1 = new InMemItem("Test 1", mockUser);
-        Item i2 = new InMemItem("Test 2", mockUser);
-        Item i3 = new InMemItem("Test 3", mockUser);
+        Item i1 = InMemItem.add("Test 1", mockUser);
+        Item i2 = InMemItem.add("Test 2", mockUser);
+        Item i3 = InMemItem.add("Test 3", mockUser);
 
         assertEquals(3, InMemItem.getAll().size());
     }
 
     @Test
     public void getComments() {
-        Item i1 = new InMemItem("Test 1", mockUser);
-        Item i2 = new InMemItem("Test 1", mockUser);
+        Item i1 = InMemItem.add("Test 1", mockUser);
+        Item i2 = InMemItem.add("Test 1", mockUser);
         Comment c1 = new InMemComment("Comment 1-1", mockUser, i1);
         Comment c2 = new InMemComment("Comment 1-2", mockUser, i1);
         Comment c3 = new InMemComment("Comment 2-1", mockUser, i2);
@@ -49,7 +49,7 @@ public class InMemItemTest {
 
     @Test
     public void getCommentsLimit() {
-        Item i1 = new InMemItem("Test 1", mockUser);
+        Item i1 = InMemItem.add("Test 1", mockUser);
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
         Comment c2 = new InMemComment("Comment 2", mockUser, i1);
         Comment c3 = new InMemComment("Comment 3", mockUser, i1);
@@ -71,9 +71,8 @@ public class InMemItemTest {
         User anotherUser = new InMemUser();
         InMemUser.setCurrentUser(mockUser);
 
-        Item i1 = new InMemItem("Test 1", mockUser);
+        Item i1 = InMemItem.add("Test 1", mockUser);
 
-        i1.follow(mockUser);
         assertEquals(1, i1.getFollowings().size());
         assertEquals(mockUser, i1.getFollowings().get(0).getUser());
 

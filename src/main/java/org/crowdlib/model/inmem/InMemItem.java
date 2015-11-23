@@ -1,5 +1,6 @@
 package org.crowdlib.model.inmem;
 
+import com.google.gson.JsonObject;
 import org.crowdlib.model.Comment;
 import org.crowdlib.model.Following;
 import org.crowdlib.model.Item;
@@ -126,5 +127,15 @@ public class InMemItem implements Item {
 
     public static ArrayList<Item> getAll() {
         return list;
+    }
+
+    public static Item add(String content, User user) {
+        Item i = new InMemItem(
+                content,
+                user
+        );
+
+        i.follow(user);
+        return i;
     }
 }

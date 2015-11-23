@@ -27,8 +27,8 @@ public class InMemUserTest {
 
     @Test
     public void addAndGetItem() {
-        Item i1 = new InMemItem("Test 1", mockUser);
-        Item i2 = new InMemItem("Test 2", mockUser);
+        Item i1 = InMemItem.add("Test 1", mockUser);
+        Item i2 = InMemItem.add("Test 2", mockUser);
         assertEquals(2, mockUser.getItems().size());
     }
 
@@ -36,7 +36,7 @@ public class InMemUserTest {
     public void getFavourites() {
         InMemUser.setCurrentUser(mockUser);
         User anotherUser = new InMemUser();
-        Item i1 = new InMemItem("Test 1", mockUser);
+        Item i1 = InMemItem.add("Test 1", mockUser);
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
         Comment c11 = new InMemComment("Comment 1-1", mockUser, i1, c1);
         Comment c2 = new InMemComment("Comment 2", mockUser, i1);

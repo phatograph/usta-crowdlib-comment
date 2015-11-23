@@ -23,14 +23,14 @@ public class InMemCommentTest {
 
     @Test
     public void timestampTest() {
-        Item i1 = new InMemItem("Test 1", mockUser);
+        Item i1 = InMemItem.add("Test 1", mockUser);
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
         assertTrue(c1.getDate().getTime() <= (new Date()).getTime());
     }
 
     @Test
     public void getComments() {
-        Item i1 = new InMemItem("Test 1", mockUser);
+        Item i1 = InMemItem.add("Test 1", mockUser);
 
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
 
@@ -56,7 +56,7 @@ public class InMemCommentTest {
 
     @Test
     public void getCommentsLimit() {
-        Item i1 = new InMemItem("Test 1", mockUser);
+        Item i1 = InMemItem.add("Test 1", mockUser);
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
         Comment c11 = new InMemComment("Comment 1-1", mockUser, i1, c1);
         Comment c12 = new InMemComment("Comment 1-2", mockUser, i1, c1);
@@ -77,7 +77,7 @@ public class InMemCommentTest {
     @Test
     public void deleteComment() {
         InMemUser.setCurrentUser(mockUser);
-        Item i1 = new InMemItem("Test 1", mockUser);
+        Item i1 = InMemItem.add("Test 1", mockUser);
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
 
         assertEquals(InMemComment.DELETE_MESSAGE_USER, c1.delete().getContent());
@@ -88,7 +88,7 @@ public class InMemCommentTest {
     public void deleteCommentNotOwn() {
         InMemUser.setCurrentUser(mockUser);
         User anotherUser = new InMemUser();
-        Item i1 = new InMemItem("Test 1", mockUser);
+        Item i1 = InMemItem.add("Test 1", mockUser);
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
         Comment c2 = new InMemComment("Comment 2", anotherUser, i1);
 
@@ -100,7 +100,7 @@ public class InMemCommentTest {
     public void restoreComment() {
         InMemUser.setCurrentUser(mockUser);
         User anotherUser = new InMemUser();
-        Item i1 = new InMemItem("Test 1", mockUser);
+        Item i1 = InMemItem.add("Test 1", mockUser);
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
         Comment c2 = new InMemComment("Comment 2", anotherUser, i1);
 
@@ -115,7 +115,7 @@ public class InMemCommentTest {
         User anotherUser = new InMemUser().setIsAdmin(true);
         InMemUser.setCurrentUser(anotherUser);
 
-        Item i1 = new InMemItem("Test 1", mockUser);
+        Item i1 = InMemItem.add("Test 1", mockUser);
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
         Comment c2 = new InMemComment("Comment 2", anotherUser, i1);
 
@@ -131,7 +131,7 @@ public class InMemCommentTest {
         User anotherUser = new InMemUser();
         InMemUser.setCurrentUser(mockUser);
 
-        Item i1 = new InMemItem("Test 1", mockUser);
+        Item i1 = InMemItem.add("Test 1", mockUser);
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
 
         c1.favourite(mockUser);

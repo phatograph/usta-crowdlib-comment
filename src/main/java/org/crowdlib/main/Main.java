@@ -29,8 +29,6 @@ public final class Main {
     private Main() {
     }
 
-    ;
-
     /**
      * Create a Grizzly server and register the classes that make up this application.
      */
@@ -63,14 +61,14 @@ public final class Main {
         User u3 = new InMemUser("Suhyun", "Cha");
         InMemUser.setCurrentUser(u1);
 
-        Item i1 = new InMemItem("Lord of the Rings", u1);
+        Item i1 = InMemItem.add("Lord of the Rings", u1);
 
         Comment c1 = new InMemComment("Outstanding.", u1, i1);
         new InMemComment("Wonderful.", u2, i1);
         new InMemComment("Indeed.", u2, i1, c1);
         new InMemComment("Totally agreed.", u3, i1, c1);
 
-        Item i2 = new InMemItem("Last Fantasy", u2);
+        Item i2 = InMemItem.add("Last Fantasy", u2);
 
         for (int i = 0; i < 300; i++) {
             new InMemComment(String.format("Comment %s", i), u3, i2);
@@ -82,6 +80,5 @@ public final class Main {
         }
 
         c1.favourite(u1);
-        i1.follow(u1);
     }
 }
