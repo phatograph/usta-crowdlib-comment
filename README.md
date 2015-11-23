@@ -414,19 +414,19 @@ $ curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s | jq
 
 ### Users
 
-#### Get all users
+##### Get all users
 
 ``` bash
 curl -H "Content-Type: application/json" http://localhost:9998/users -s 
 ```
 
-#### Get a single user
+##### Get a single user
 
 ``` bash
 curl -H "Content-Type: application/json" http://localhost:9998/users/0
 ```
 
-#### Get a user favoured comments
+##### Get a user favoured comments
 
 Note that you can see other's as well by specifying an id.
 
@@ -434,25 +434,25 @@ Note that you can see other's as well by specifying an id.
 curl -H "Content-Type: application/json" http://localhost:9998/users/0/favourites -s
 ```
 
-#### Change current active user
+##### Change current active user
 
 ``` bash
 curl -v -H "Content-Type: application/json" -X PUT http://localhost:9998/users/{user_id}/act  
 ```
 
-#### Get followings
+##### Get followings items
 
 ``` bash
 curl -v -H "Content-Type: application/json" http://localhost:9998/users/followings
 ```
 
-#### Get notifications
+##### Get notifications
 
 ``` bash
 curl -v -H "Content-Type: application/json" http://localhost:9998/users/notifications
 ```
 
-#### Mark notifications as read
+##### Mark notifications as read
 
 ``` bash
 curl -v -H "Content-Type: application/json" -X PUT http://localhost:9998/users/notifications
@@ -460,16 +460,88 @@ curl -v -H "Content-Type: application/json" -X PUT http://localhost:9998/users/n
 
 ### Items
 
-#### Get all items
+##### Get all items
 
 ``` bash
 curl -H "Content-Type: application/json" http://localhost:9998/items -s
 ```
 
-#### Create a new item
+##### Get a single item
+
+``` bash
+curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s
+```
+
+##### Create a new item
+
+Note that once you create an item, you will be automatically
+follow that item.
 
 ``` bash
 curl -H "Content-Type: application/json" -X POST -d '{"content":"Turkish goes to the Moon"}' http://localhost:9998/items
 ```
 
+##### Post a comment to an item
+
+``` bash
+curl -H "Content-Type: application/json" -X POST -d '{"content":"New comment"}' http://localhost:9998/items/0/reply
+```
+
+##### Follow an item
+
+``` bash
+curl -H "Content-Type: application/json" -X POST http://localhost:9998/items/0/follow
+```
+
+##### Unfollow an item
+
+``` bash
+curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/items/0/unfollow
+```
+
+### Comments
+
+##### Get nested comment
+
+Note that this will only return nested comments, not the comment itself.
+
+``` bash
+curl -H "Content-Type: application/json" http://localhost:9998/comments/0 -s
+```
+
+##### Post a comment to another comment
+
+Aka create a nested comment.
+
+``` bash
+curl -H "Content-Type: application/json" -X POST -d '{"content":"New comment"}' http://localhost:9998/comments/0/reply
+```
+
+##### Remove a comment
+
+``` bash
+curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/comments/2
+```
+
+##### Restore a comment
+
+``` bash
+curl -H "Content-Type: application/json" -X PUT http://localhost:9998/comments/2/restore
+```
+
+##### Favourite a comment
+
+``` bash
+curl -H "Content-Type: application/json" -X POST http://localhost:9998/comments/2/favourite
+```
+
+##### Unfavourite a comment
+
+``` bash
+curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/comments/2/unfavourite
+```
+
 ## CORS
+
+`CORSResponseFilter` which deal with [HTTP access control (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS)
+is credited to student whose id is 14250136!
