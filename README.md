@@ -27,7 +27,7 @@ open build/reports/checkstyle/main.html
 
 ## Requirements
 
-##### A Comment is posted by a User and can either be a new comment on a library catalogue item or a reply to a previous comment.
+#### A Comment is posted by a User and can either be a new comment on a library catalogue item or a reply to a previous comment.
 
 Comments can be added to an item.
 
@@ -41,7 +41,7 @@ Or also to another comment.
 $ curl -H "Content-Type: application/json" -X POST -d '{"content":"Another new comment!"}' http://localhost:9998/comments/604/reply -v -s
 ```
 
-##### Comments are timestamped.
+#### Comments are timestamped.
 
 Posting a comment will introduce the current timestamp.
 
@@ -63,7 +63,7 @@ $ curl -H "Content-Type: application/json" -X POST -d '{"content":"New comment!"
 }
 ```
 
-##### For any given library catalogue item, it should be possible to obtain the comments
+#### For any given library catalogue item, it should be possible to obtain the comments
 posted. A paging feature should allow users to select 20, 50 or 100 comments at a
 time.
 
@@ -77,7 +77,7 @@ $ curl -H "Content-Type: application/json" http://localhost:9998/items/1\?limit\
 This means you're getting an information of comment id `1`, with its 2 comments,
 starting from the 3rd one.
 
-##### Users should be able to select a comment as a favourite and should be able to
+#### Users should be able to select a comment as a favourite and should be able to
 retrieve all the comments the have put on their list of favourites.
 
 To favourite a comment.
@@ -92,38 +92,38 @@ To get a user favoured comments.
 $ curl -H "Content-Type: application/json" http://localhost:9998/users/0/favourites -v -s
 ```
 
-##### For any comments it should be possible to retrieve the replies to this comment
+#### For any comments it should be possible to retrieve the replies to this comment
 including replies to replies and so on.
 
-##### Users should be able to follow a bibliographic item’s comments. Any new comments
+TBD
+
+#### Users should be able to follow a bibliographic item’s comments. Any new comments
 posted on a bibliographic item will show up in a list of notifications.
 
-##### Once seen by a user, a comment should be removed from the list of notifications.
+TBD
 
-##### Each comment should display a count of how many users have put it on their lists of
+#### Once seen by a user, a comment should be removed from the list of notifications.
+
+TBD
+
+#### Each comment should display a count of how many users have put it on their lists of
 favourites.
 
-##### A user should be able to remove a comment they posted from view. This means that
+TBD
+
+#### A user should be able to remove a comment they posted from view. This means that
 its content should be replaced with an explanatory message saying that the post was
 removed by the user
 
-##### A user in the admin role can remove comments from view. They are flagged in the
+TBD
+
+#### A user in the admin role can remove comments from view. They are flagged in the
 system as being removed by a moderator and the content is no longer provided to
 clients. An explanatory note is provided instead of the original content.
 
-##### For the purposes of this assignment, an in-memory representation is sufficient (but
-note the extensions section below).
+TBD
 
-##### Similarly, authentication can be through a simple static username/password list.
-
-##### The RESTful API and client code must make use of Jersey, the reference
-implementation of the JAX-RS standard.
-
-##### The API should follow the principles of RESTful design (cf. Bill Burke’s RESTful Java
-with JAX-RS, Chapter 1).
-
-##### Unit testing can be written either as plain JUnit tests or using the Spock framework.
-Unit tests should involve mock objects where appropriate.
+## API
 
 ### Change current user
 
