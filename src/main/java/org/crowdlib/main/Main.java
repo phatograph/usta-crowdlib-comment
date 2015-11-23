@@ -81,6 +81,7 @@ public final class Main {
             new InMemComment(String.format("Comment %s-%s", tmp.getID(), i), u2, tmp.getItem(), tmp);
         }
 
-        new InMemFavourite(u1, c1);
+        c1.favourite(u1);
+        i1.follow(u1);
     }
 }

@@ -128,20 +128,19 @@ public class InMemCommentTest {
 
     @Test
     public void testFavourite() {
-        User anotherUser = new InMemUser().setIsAdmin(true);
+        User anotherUser = new InMemUser();
+        InMemUser.setCurrentUser(mockUser);
 
         Item i1 = new InMemItem("Test 1", mockUser);
         Comment c1 = new InMemComment("Comment 1", mockUser, i1);
-        Comment c2 = new InMemComment("Comment 2", anotherUser, i1);
 
         c1.favourite(mockUser);
-
         assertEquals(1, InMemFavourite.getAll().size());
+        assertEquals(mockUser, c1.getFavourites().get(0).getUser());
+
         assertFalse(c1.unFavourite(anotherUser));
         assertTrue(c1.unFavourite(mockUser));
-
-        assertEquals(1, c1.getFavourites().size());
-        assertEquals(mockUser, c1.getFavourites().get(0).getUser());
+        assertEquals(0, c1.getFavourites().size());
     }
 }
 

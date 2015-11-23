@@ -27,6 +27,11 @@ public interface Item {
 
     String getTitle();
     Item setTitle(String title);
+
     ArrayList<Comment> getComments();
     ArrayList<Comment> getComments(int from, int limit);
+
+    ArrayList<Following> getFollowings();
+    Following follow(User user);
+    boolean unFollow(User user);
 }

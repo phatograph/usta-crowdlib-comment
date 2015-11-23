@@ -96,9 +96,12 @@ public class CommentController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response unFavourite(@PathParam("id") int id) {
         Comment c = InMemComment.get(id);
-        c.unFavourite(InMemUser.getCurrentUser());
 
-        return Response.ok().build();
+        if (c.unFavourite(InMemUser.getCurrentUser())) {
+            return Response.ok().build();
+        }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 }
 

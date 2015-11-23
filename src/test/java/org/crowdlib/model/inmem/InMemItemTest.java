@@ -7,8 +7,7 @@ import org.crowdlib.model.mock.MockUser;
 import org.junit.After;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class InMemItemTest {
     User mockUser = new MockUser();
@@ -17,6 +16,8 @@ public class InMemItemTest {
     public void after() {
         InMemItem.getAll().clear();
         InMemComment.getAll().clear();
+        InMemFollowing.getAll().clear();
+        InMemUser.setCurrentUser(null);
     }
 
     @Test
@@ -63,5 +64,21 @@ public class InMemItemTest {
         assertEquals(c3, i1.getComments(2, 2).get(0));
 
         assertEquals(0, i1.getComments(3, 2).size());
+    }
+
+    @Test
+    public void followings() {
+        User anotherUser = new InMemUser();
+        InMemUser.setCurrentUser(mockUser);
+
+        Item i1 = new InMemItem("Test 1", mockUser);
+
+        i1.follow(mockUser);
+        assertEquals(1, i1.getFollowings().size());
+        assertEquals(mockUser, i1.getFollowings().get(0).getUser());
+
+        assertFalse(i1.unFollow(anotherUser));
+        assertTrue(i1.unFollow(mockUser));
+        assertEquals(0, i1.getFollowings().size());
     }
 }

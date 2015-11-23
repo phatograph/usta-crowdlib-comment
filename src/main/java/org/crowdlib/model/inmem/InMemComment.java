@@ -160,8 +160,8 @@ public class InMemComment implements Comment {
 
     @Override
     public boolean unFavourite(User user) {
-        for (Favourite f: user.getFavourites()) {
-            if (f.getComment() == this) {
+        for (Favourite f: getFavourites()) {
+            if (f.getUser() == user) {
                 f.delete();
                 return true;
             }

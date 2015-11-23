@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.crowdlib.decorator.CommentDecorator;
+import org.crowdlib.decorator.FollowingDecorator;
 import org.crowdlib.model.Comment;
 import org.crowdlib.model.Item;
 import org.crowdlib.model.inmem.InMemComment;
@@ -40,6 +41,7 @@ public class ItemController {
 
         h.put("item", i);
         h.put("comments", CommentDecorator.decorate(i.getComments(from, limit)));
+        h.put("followings", FollowingDecorator.decorate(i.getFollowings()));
 
         return Response.ok(g.toJson(h)).build();
     }
@@ -78,6 +80,31 @@ public class ItemController {
         );
 
         return Response.ok().build();
+    }
+
+    @POST
+    @Path("{id}/follow")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response follow(@PathParam("id") int id) {
+        Item i = InMemItem.get(id);
+        i.follow(InMemUser.getCurrentUser());
+
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Path("{id}/unfollow")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response unFollow(@PathParam("id") int id) {
+        Item i = InMemItem.get(id);
+
+        if (i.unFollow(InMemUser.getCurrentUser())) {
+            return Response.ok().build();
+        }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 }
 

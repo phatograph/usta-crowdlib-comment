@@ -1,6 +1,7 @@
 package org.crowdlib.model.inmem;
 
 import org.crowdlib.model.Comment;
+import org.crowdlib.model.Following;
 import org.crowdlib.model.Item;
 import org.crowdlib.model.User;
 
@@ -73,6 +74,42 @@ public class InMemItem implements Item {
         }
 
         return new ArrayList((cList).subList(from, from + limit));
+    }
+
+    @Override
+    public ArrayList<Following> getFollowings() {
+        ArrayList<Following> results = new ArrayList();
+
+        for (Following x : InMemFollowing.getAll()) {
+            if (x.getItem() == this) {
+                results.add(x);
+            }
+        }
+
+        return results;
+    }
+
+    @Override
+    public Following follow(User user) {
+        // TODO: move to model.
+        Following f = new InMemFollowing(
+                user,
+                this
+        );
+
+        return f;
+    }
+
+    @Override
+    public boolean unFollow(User user) {
+        for (Following f: getFollowings()) {
+            if (f.getUser() == user) {
+                f.delete();
+                return true;
+            }
+        }
+
+        return false;
     }
 
     // STATIC METHODS
