@@ -74,7 +74,7 @@ public class UserController {
         return Response.ok(g.toJson(result)).build();
     }
 
-    @POST
+    @PUT
     @Path("notifications")
     @Produces(MediaType.APPLICATION_JSON)
     public Response readNotifications() {
