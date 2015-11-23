@@ -199,47 +199,274 @@ $ curl -H "Content-Type: application/json" http://localhost:9998/users/notificat
 
 #### Once seen by a user, a comment should be removed from the list of notifications.
 
-TBD
+A user can mark all notification as read as follow.
+
+``` bash
+$ curl -H "Content-Type: application/json" -X PUT http://localhost:9998/users/notifications -s
+```
+
+Re-check the notification.
+
+``` bash
+$ curl -H "Content-Type: application/json" http://localhost:9998/users/notifications -s | jq '.'
+[]
+```
 
 #### Each comment should display a count of how many users have put it on their lists of favourites.
 
-TBD
+Once you retrieve a comment, either top-level or nested,
+favourites count will also be presented. The next example
+is a top-level comment.
+
+``` bash
+$ curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s | jq '.'
+{
+  "item": {
+    "id": 0,
+    "title": "Lord of the Rings",
+    "user": {
+      "id": 0,
+      "name": "Phat",
+      "surname": "Wangrungarun",
+      "isAdmin": true
+    }
+  },
+  "comments": [
+    {
+      "date": "Nov 23, 2015 5:52:44 PM",
+      "itemId": 0,
+      "favourites": 1,
+      "id": 0,
+      "user": {
+        "id": 0,
+        "name": "Phat",
+        "surname": "Wangrungarun",
+        "isAdmin": true
+      },
+      "content": "Outstanding.",
+      "parentId": -1
+    },
+    ...
+  ],
+  ...
+}
+```
+
+Another example for nested comments (from comment id `0`).
+
+``` bash
+$ curl -H "Content-Type: application/json" http://localhost:9998/comments/0 -s | jq '.'
+[
+  {
+    "date": "Nov 23, 2015 5:52:44 PM",
+    "itemId": 0,
+    "favourites": 0,
+    "id": 2,
+    "user": {
+      "id": 1,
+      "name": "Sebastian",
+      "surname": "Duque",
+      "isAdmin": false
+    },
+    "content": "Indeed.",
+    "parentId": 0
+  },
+  {
+    "date": "Nov 23, 2015 5:52:44 PM",
+    "itemId": 0,
+    "favourites": 0,
+    "id": 3,
+    "user": {
+      "id": 2,
+      "name": "Suhyun",
+      "surname": "Cha",
+      "isAdmin": false
+    },
+    "content": "Totally agreed.",
+    "parentId": 0
+  }
+]
+```
 
 #### A user should be able to remove a comment they posted from view. This means that its content should be replaced with an explanatory message saying that the post was removed by the user
 
-TBD
+User can remove a comment as follow.
+
+``` bash
+$ curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/comments/0 -s
+```
+
+It will be displayed with a different message, but the actual content is
+still kept.
+
+``` bash
+$ curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s | jq '.'
+{
+  "item": {
+    "id": 0,
+    "title": "Lord of the Rings",
+    "user": {
+      "id": 0,
+      "name": "Phat",
+      "surname": "Wangrungarun",
+      "isAdmin": true
+    }
+  },
+  "comments": [
+    {
+      "date": "Nov 23, 2015 5:52:44 PM",
+      "itemId": 0,
+      "favourites": 1,
+      "id": 0,
+      "user": {
+        "id": 0,
+        "name": "Phat",
+        "surname": "Wangrungarun",
+        "isAdmin": true
+      },
+      "content": "The post was removed by the user.",
+      "parentId": -1
+    },
+    ...
+  ],
+  ...
+}
+```
+
+User can also restore their comment as follow.
+
+``` bash
+$ curl -H "Content-Type: application/json" -X PUT http://localhost:9998/comments/0/restore -s 
+```
+
+Moreover, a non-admon user cannot remove other's comments,
+which will result in 403 Forbidden.
+
+``` bash
+$ curl -H "Content-Type: application/json" -X PUT http://localhost:9998/users/1/act -v -s
+
+$ curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/comments/0 -s -v | jq '.'
+*   Trying ::1...
+* connect to ::1 port 9998 failed: Connection refused
+*   Trying 127.0.0.1...
+* Connected to localhost (127.0.0.1) port 9998 (#0)
+> DELETE /comments/0 HTTP/1.1
+> Host: localhost:9998
+> User-Agent: curl/7.43.0
+> Accept: */*
+> Content-Type: application/json
+> 
+< HTTP/1.1 403 Forbidden
+< Access-Control-Allow-Origin: *
+< Access-Control-Allow-Methods: GET, POST
+< Access-Control-Allow-Headers: X-Requested-With, Content-Type
+< Date: Mon, 23 Nov 2015 18:39:04 GMT
+< Content-Length: 0
+< 
+* Connection #0 to host localhost left intact
+```
 
 #### A user in the admin role can remove comments from view. They are flagged in the system as being removed by a moderator and the content is no longer provided to clients. An explanatory note is provided instead of the original content.
 
-TBD
+An admin uses the same request to remove other's comment.
+
+``` bash
+$ curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/comments/1 -s
+```
+
+Which would result in a moderator message.
+
+``` bash
+$ curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s | jq '.'
+{
+  "item": {
+    "id": 0,
+    "title": "Lord of the Rings",
+    "user": {
+      "id": 0,
+      "name": "Phat",
+      "surname": "Wangrungarun",
+      "isAdmin": true
+    }
+  },
+  "comments": [
+    ...,
+    {
+      "date": "Nov 23, 2015 5:52:44 PM",
+      "itemId": 0,
+      "favourites": 0,
+      "id": 1,
+      "user": {
+        "id": 1,
+        "name": "Sebastian",
+        "surname": "Duque",
+        "isAdmin": false
+      },
+      "content": "The post was removed by a moderator.",
+      "parentId": -1
+    }
+  ],
+  ...
+}
+```
 
 ## API
 
-### Change current user
+### Users
+
+#### Get all users
+
+``` bash
+curl -H "Content-Type: application/json" http://localhost:9998/users -s 
+```
+
+#### Get a single user
+
+``` bash
+curl -H "Content-Type: application/json" http://localhost:9998/users/0
+```
+
+#### Get a user favoured comments
+
+Note that you can see other's as well by specifying an id.
+
+``` bash
+curl -H "Content-Type: application/json" http://localhost:9998/users/0/favourites -s
+```
+
+#### Change current active user
 
 ``` bash
 curl -v -H "Content-Type: application/json" -X PUT http://localhost:9998/users/{user_id}/act  
 ```
 
-### Get notifications
-
-``` bash
-curl -v -H "Content-Type: application/json" http://localhost:9998/users/notifications
-```
-
-### Get followings
+#### Get followings
 
 ``` bash
 curl -v -H "Content-Type: application/json" http://localhost:9998/users/followings
 ```
 
-### Get user information
+#### Get notifications
 
 ``` bash
-curl -v -H "Content-Type: application/json" http://localhost:9998/users/{user_id}
+curl -v -H "Content-Type: application/json" http://localhost:9998/users/notifications
 ```
 
-### Create a new item
+#### Mark notifications as read
+
+``` bash
+curl -v -H "Content-Type: application/json" -X PUT http://localhost:9998/users/notifications
+```
+
+### Items
+
+#### Get all items
+
+``` bash
+curl -H "Content-Type: application/json" http://localhost:9998/items -s
+```
+
+#### Create a new item
 
 ``` bash
 curl -H "Content-Type: application/json" -X POST -d '{"content":"Turkish goes to the Moon"}' http://localhost:9998/items
