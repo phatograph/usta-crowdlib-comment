@@ -17,7 +17,11 @@ public class InMemCommentTest {
 
     @After
     public void after() {
+        InMemUser.getAll().clear();
+        InMemItem.getAll().clear();
         InMemComment.getAll().clear();
+        InMemFavourite.getAll().clear();
+        InMemFollowing.getAll().clear();
         InMemUser.setCurrentUser(null);
     }
 
@@ -141,6 +145,19 @@ public class InMemCommentTest {
         assertFalse(c1.unFavourite(anotherUser));
         assertTrue(c1.unFavourite(mockUser));
         assertEquals(0, c1.getFavourites().size());
+    }
+
+    @Test
+    public void testReFavourite() {
+        InMemUser.setCurrentUser(mockUser);
+
+        Item i1 = InMemItem.add("Test 1", mockUser);
+        Comment c1 = new InMemComment("Comment 1", mockUser, i1);
+
+        c1.favourite(mockUser);
+        assertEquals(1, mockUser.getFavourites().size());
+        c1.favourite(mockUser);
+        assertEquals(1, mockUser.getFavourites().size());
     }
 }
 

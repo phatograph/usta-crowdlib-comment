@@ -43,7 +43,7 @@ public class InMemUserTest {
 
         c1.favourite(mockUser);
         c1.favourite(anotherUser);
-        anotherUser.favourite(c1);
+        anotherUser.favourite(c2);
 
         assertEquals(3, InMemFavourite.getAll().size());
         assertEquals(1, mockUser.getFavourites().size());

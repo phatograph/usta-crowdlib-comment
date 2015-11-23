@@ -110,13 +110,7 @@ public class InMemUser implements User {
 
     @Override
     public Favourite favourite(Comment comment) {
-        // TODO: move to model.
-        Favourite f = new InMemFavourite(
-                this,
-                comment
-        );
-
-        return f;
+        return InMemFavourite.add(this, comment);
     }
 
     @Override

@@ -149,13 +149,7 @@ public class InMemComment implements Comment {
 
     @Override
     public Favourite favourite(User user) {
-        // TODO: move to model.
-        Favourite f = new InMemFavourite(
-                user,
-                this
-        );
-
-        return f;
+        return InMemFavourite.add(user, this);
     }
 
     @Override

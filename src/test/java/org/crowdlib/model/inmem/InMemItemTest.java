@@ -14,8 +14,10 @@ public class InMemItemTest {
 
     @After
     public void after() {
+        InMemUser.getAll().clear();
         InMemItem.getAll().clear();
         InMemComment.getAll().clear();
+        InMemFavourite.getAll().clear();
         InMemFollowing.getAll().clear();
         InMemUser.setCurrentUser(null);
     }
@@ -79,5 +81,17 @@ public class InMemItemTest {
         assertFalse(i1.unFollow(anotherUser));
         assertTrue(i1.unFollow(mockUser));
         assertEquals(0, i1.getFollowings().size());
+    }
+
+    @Test
+    public void reFollowings() {
+        InMemUser.setCurrentUser(mockUser);
+
+        Item i1 = InMemItem.add("Test 1", mockUser);
+
+        assertEquals(1, i1.getFollowings().size());
+
+        assertNull(i1.follow(mockUser));
+        assertEquals(1, i1.getFollowings().size());
     }
 }

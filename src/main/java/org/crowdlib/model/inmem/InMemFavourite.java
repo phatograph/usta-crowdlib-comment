@@ -62,4 +62,19 @@ public class InMemFavourite implements Favourite {
     public static ArrayList<Favourite> getAll() {
         return list;
     }
+
+    public static Favourite add(User user, Comment comment) {
+        for (Favourite f :list) {
+            if (f.getUser() == user && f.getComment() == comment) {
+                return null;
+            }
+        }
+
+        Favourite f = new InMemFavourite(
+                user,
+                comment
+        );
+
+        return f;
+    }
 }

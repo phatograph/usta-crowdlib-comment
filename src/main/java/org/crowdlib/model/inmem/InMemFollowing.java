@@ -60,5 +60,20 @@ public class InMemFollowing implements Following {
     public static ArrayList<Following> getAll() {
         return list;
     }
+
+    public static Following add(User user, Item item) {
+        for (Following f :list) {
+            if (f.getUser() == user && f.getItem() == item) {
+                return null;
+            }
+        }
+
+        Following f = new InMemFollowing(
+                user,
+                item
+        );
+
+        return f;
+    }
 }
 

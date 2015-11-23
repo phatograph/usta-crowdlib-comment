@@ -92,13 +92,7 @@ public class InMemItem implements Item {
 
     @Override
     public Following follow(User user) {
-        // TODO: move to model.
-        Following f = new InMemFollowing(
-                user,
-                this
-        );
-
-        return f;
+        return InMemFollowing.add(user, this);
     }
 
     @Override
