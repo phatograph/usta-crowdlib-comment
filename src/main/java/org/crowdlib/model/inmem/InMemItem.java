@@ -123,9 +123,9 @@ public class InMemItem implements Item {
         return list;
     }
 
-    public static Item add(String content, User user) {
+    public static Item add(String title, User user) {
         Item i = new InMemItem(
-                content,
+                title,
                 user
         );
 

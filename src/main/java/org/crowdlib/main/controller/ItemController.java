@@ -55,7 +55,7 @@ public class ItemController {
         JsonObject jo = json.getAsJsonObject();
 
         Item i = InMemItem.add(
-                jo.get("content").getAsString(),
+                jo.get("title").getAsString(),
                 InMemUser.getCurrentUser()
         );
 

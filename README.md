@@ -158,7 +158,7 @@ $ curl -H "Content-Type: application/json" -X PUT http://localhost:9998/users/0/
 Then check for a new notification.
 
 ``` bash
-$ curl -H "Content-Type: application/json" http://localhost:9998/users/notifications -s | jq '.'  
+$ curl -H "Content-Type: application/json" http://localhost:9998/users/notifications -s
 [
   {
     "id": 604,
@@ -208,7 +208,7 @@ $ curl -H "Content-Type: application/json" -X PUT http://localhost:9998/users/no
 Re-check the notification.
 
 ``` bash
-$ curl -H "Content-Type: application/json" http://localhost:9998/users/notifications -s | jq '.'
+$ curl -H "Content-Type: application/json" http://localhost:9998/users/notifications -s
 []
 ```
 
@@ -219,7 +219,7 @@ favourites count will also be presented. The next example
 is a top-level comment.
 
 ``` bash
-$ curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s | jq '.'
+$ curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s
 {
   "item": {
     "id": 0,
@@ -255,7 +255,7 @@ $ curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s | jq
 Another example for nested comments (from comment id `0`).
 
 ``` bash
-$ curl -H "Content-Type: application/json" http://localhost:9998/comments/0 -s | jq '.'
+$ curl -H "Content-Type: application/json" http://localhost:9998/comments/0 -s
 [
   {
     "date": "Nov 23, 2015 5:52:44 PM",
@@ -300,7 +300,7 @@ It will be displayed with a different message, but the actual content is
 still kept.
 
 ``` bash
-$ curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s | jq '.'
+$ curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s
 {
   "item": {
     "id": 0,
@@ -339,13 +339,13 @@ User can also restore their comment as follow.
 $ curl -H "Content-Type: application/json" -X PUT http://localhost:9998/comments/0/restore -s 
 ```
 
-Moreover, a non-admon user cannot remove other's comments,
+Moreover, a non-admin user cannot remove other's comments,
 which will result in 403 Forbidden.
 
 ``` bash
 $ curl -H "Content-Type: application/json" -X PUT http://localhost:9998/users/1/act -v -s
 
-$ curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/comments/0 -s -v | jq '.'
+$ curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/comments/0 -s -v
 *   Trying ::1...
 * connect to ::1 port 9998 failed: Connection refused
 *   Trying 127.0.0.1...
@@ -377,7 +377,7 @@ $ curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/comme
 Which would result in a moderator message.
 
 ``` bash
-$ curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s | jq '.'
+$ curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s
 {
   "item": {
     "id": 0,
