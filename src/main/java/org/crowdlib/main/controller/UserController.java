@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.crowdlib.decorator.FavouriteDecorator;
 import org.crowdlib.model.Favourite;
+import org.crowdlib.model.Notification;
 import org.crowdlib.model.User;
 import org.crowdlib.model.inmem.InMemItem;
 import org.crowdlib.model.inmem.InMemUser;
@@ -42,8 +43,7 @@ public class UserController {
     @Path("{id}/favourites")
     @Produces(MediaType.APPLICATION_JSON)
     public Response favourites(@PathParam("id") int id) {
-        HashMap h = new HashMap();
-        ArrayList<Favourite> result = InMemUser.getCurrentUser().getFavourites();
+        ArrayList<Favourite> result = InMemUser.get(id).getFavourites();
         return Response.ok(g.toJson(FavouriteDecorator.decorate(result))).build();
     }
 
@@ -55,6 +55,22 @@ public class UserController {
         User u = InMemUser.get(id);
         InMemUser.setCurrentUser(u);
         return Response.ok(g.toJson(u)).build();
+    }
+
+    @GET
+    @Path("notifications")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response notifications(@PathParam("id") int id) {
+        ArrayList<Notification> result = InMemUser.getCurrentUser().getNotifications();
+        return Response.ok(g.toJson(result)).build();
+    }
+
+    @POST
+    @Path("notifications")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response readNotifications(@PathParam("id") int id) {
+        InMemUser.getCurrentUser().readNotifications();
+        return Response.ok().build();
     }
 }
 

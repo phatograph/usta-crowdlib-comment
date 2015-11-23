@@ -182,7 +182,7 @@ public class InMemComment implements Comment {
             if (f.getUser() != user) {
                 Notification n = new InMemNotification(
                         f.getUser(),
-                        comment
+                        c
                 );
             }
         }
