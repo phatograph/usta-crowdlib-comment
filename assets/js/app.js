@@ -270,9 +270,8 @@ let UserBox = React.createClass({
       contentType: 'application/json',
       type: 'PUT',
       success: data => {
-        console.log(data);
         if (data) {
-          this.loadItemsFromServer()
+          document.location.reload(true);
         }
       }.bind(this),
       error: (xhr, status, err) => {
@@ -305,13 +304,76 @@ let UserBox = React.createClass({
   }
 });
 
+let Notifications = React.createClass({
+  loadItemsFromServer() {
+    $.ajax({
+      url: this.state.url,
+      dataType: 'json',
+      cache: false,
+      success: data => {
+        this.setState({data: data});
+      }.bind(this),
+      error: (xhr, status, err) => {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  markAsRead(e) {
+    e.preventDefault();
+
+    $.ajax({
+      url: this.state.url,
+      dataType: 'json',
+      cache: false,
+      type: 'PUT',
+      success: data => {
+        this.loadItemsFromServer();
+      }.bind(this),
+      error: (xhr, status, err) => {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  getInitialState() {
+    return {
+      pollInterval: 200,
+      url: 'http://localhost:9998/users/notifications',
+      data: []
+    };
+  },
+  componentDidMount() {
+    this.loadItemsFromServer();
+    window.addEventListener('hashchange', () => {
+      this.loadItemsFromServer();
+    })
+  },
+  render() {
+    let list = this.state.data.map(x => (
+          <div key={x.id}>
+          "{x.comment.content}" on {x.comment.item.title}
+          by {x.comment.user.name}
+          </div>
+          ));
+    return (
+        <div className="notifications">
+        <h4>Notifications</h4>
+        <a href="#" onClick={this.markAsRead}>mark all as read</a>
+        {list}
+        </div>
+        );
+  }
+});
+
 const App = React.createClass({
   render() {
     return (
         <div>
         <a href="#/items"><h2>Items</h2></a>
         <a href="#/users"><h2>Users</h2></a>
+        <div>
         {this.props.children}
+        </div>
+        <Notifications />
         </div>
         )
   }
@@ -319,6 +381,7 @@ const App = React.createClass({
 
 let Route = window.ReactRouter.Route;
 let Router = window.ReactRouter.Router;
+let IndexRoute = window.ReactRouter.IndexRoute;
 
 ReactDOM.render((
       <Router>

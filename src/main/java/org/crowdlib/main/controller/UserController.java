@@ -79,7 +79,7 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response readNotifications() {
         InMemUser.getCurrentUser().readNotifications();
-        return Response.ok().build();
+        return Response.ok(g.toJson(true)).build();
     }
 }
 
