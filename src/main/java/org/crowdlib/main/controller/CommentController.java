@@ -87,7 +87,7 @@ public class CommentController {
         Comment c = InMemComment.get(id);
         c.favourite(InMemUser.getCurrentUser());
 
-        return Response.ok(g.toJson(true)).build();
+        return Response.ok(g.toJson(new CommentDecorator(c))).build();
     }
 
     @DELETE
@@ -98,7 +98,7 @@ public class CommentController {
         Comment c = InMemComment.get(id);
 
         if (c.unFavourite(InMemUser.getCurrentUser())) {
-            return Response.ok(g.toJson(true)).build();
+            return Response.ok(g.toJson(new CommentDecorator(c))).build();
         }
 
         return Response.status(Response.Status.FORBIDDEN).build();

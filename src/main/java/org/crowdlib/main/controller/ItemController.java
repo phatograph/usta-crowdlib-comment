@@ -40,6 +40,7 @@ public class ItemController {
         Item i = InMemItem.get(id);
 
         h.put("item", i);
+        h.put("commentsMore", from + limit < i.getComments(from, 0).size() ? from + limit : 0);
         h.put("comments", CommentDecorator.decorate(i.getComments(from, limit)));
         h.put("followings", FollowingDecorator.decorate(i.getFollowings()));
 

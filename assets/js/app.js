@@ -58,6 +58,7 @@ let ItemList = React.createClass({
           </Item>
           );
     });
+
     return (
         <div className="itemList">
         {itemNodes}
@@ -110,13 +111,16 @@ let ItemForm = React.createClass({
 });
 
 let ItemInfo = React.createClass({
-  loadItemsFromServer() {
+  loadItemsFromServer(from=0) {
     $.ajax({
-      url: `${this.state.url}/${this.props.params.id}`,
+      url: `${this.state.url}/${this.props.params.id}?from=${from}&limit=20`,
       dataType: 'json',
       cache: false,
       success: data => {
-        this.setState({data: data});
+        this.setState((previousState, currentProps) => {
+          data.comments = previousState.data.comments.concat(data.comments);
+          return {data};
+        });
       }.bind(this),
       error: (xhr, status, err) => {
         console.error(this.props.url, status, err.toString());
@@ -147,9 +151,12 @@ let ItemInfo = React.createClass({
       contentType: 'application/json',
       type: 'POST',
       success: data => {
-        if (data) {
-          this.loadItemsFromServer()
-        }
+        let comment = this.state.data.comments.find(x => {
+          return x.id == data.id
+        });
+
+        comment.favourites = data.favourites;
+        this.forceUpdate();
       }.bind(this),
       error: (xhr, status, err) => {
         console.error(this.props.url, status, err.toString());
@@ -165,14 +172,21 @@ let ItemInfo = React.createClass({
       contentType: 'application/json',
       type: 'DELETE',
       success: data => {
-        if (data) {
-          this.loadItemsFromServer()
-        }
+        let comment = this.state.data.comments.find(x => {
+          return x.id == data.id
+        });
+
+        comment.favourites = data.favourites;
+        this.forceUpdate();
       }.bind(this),
       error: (xhr, status, err) => {
         console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
+  },
+  loadMoreComments(e) {
+    e.preventDefault();
+    this.loadItemsFromServer(this.state.data.commentsMore);
   },
   getInitialState() {
     return {
@@ -191,6 +205,7 @@ let ItemInfo = React.createClass({
         <div className="itemInfo">
         <h2>{this.state.data.item.title}</h2>
         <CommentList onFavourite={this.onFavourite} onUnFavourite={this.onUnFavourite} data={this.state.data.comments} />
+        <a href="#" onClick={this.loadMoreComments} className={this.state.data.commentsMore > 0 ? '' : 'hidden'}>load more</a>
         <CommentForm onItemSubmit={this.handleItemSubmit} />
         </div>
         );
@@ -199,7 +214,8 @@ let ItemInfo = React.createClass({
 
 let CommentList = React.createClass({
   render() {
-    let comments = this.props.data.map(comment => (
+    let comments = this.props.data.map(comment => {
+      return (
           <div key={comment.id}>
           <div>
           {comment.content} – {comment.user.name} –
@@ -208,7 +224,9 @@ let CommentList = React.createClass({
           <a href="#" rel={comment.id} onClick={this.props.onUnFavourite}>unfav</a>
           </div>
           </div>
-          ));
+          );
+    });
+
     return (
         <div className="commentList">
         {comments}
@@ -289,12 +307,15 @@ let UserBox = React.createClass({
     this.loadItemsFromServer();
   },
   render() {
-    let users = this.state.data.map(user => (
+    let users = this.state.data.map(user => {
+      return (
           <div key={user.id}>
           {user.name} {user.surname} |
           <a href="#" rel={user.id} onClick={this.setActive}>make active</a> |
           </div>
-          ));
+          );
+    });
+
     return (
         <div className="itemInfo">
         <h1>Users</h1>
@@ -348,12 +369,14 @@ let Notifications = React.createClass({
     })
   },
   render() {
-    let list = this.state.data.map(x => (
+    let list = this.state.data.map(x => {
+      return (
           <div key={x.id}>
           "{x.comment.content}" on {x.comment.item.title}
           by {x.comment.user.name}
           </div>
-          ));
+          );
+    });
     return (
         <div className="notifications">
         <h4>Notifications</h4>
