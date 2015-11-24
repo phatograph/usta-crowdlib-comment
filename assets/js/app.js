@@ -71,9 +71,11 @@ let Item = React.createClass({
   render() {
     let link = `#/items/${this.props.id}`;
     return (
-        <div className="item">
+        <div className="panel panel-default">
+        <div className="panel-body">
         <a href={link}><h2 className="">{this.props.title}</h2></a>
         {this.props.children}
+        </div>
         </div>
         );
   }
@@ -97,6 +99,11 @@ let ItemForm = React.createClass({
   },
   render() {
     return (
+        <div className="panel panel-default">
+        <div className="panel-heading">
+        Add new item
+        </div>
+        <div className="panel-body">
         <form className="itemForm" onSubmit={this.handleSubmit}>
         <input
         type="text"
@@ -106,6 +113,8 @@ let ItemForm = React.createClass({
         />
         <input type="submit" value="Post" />
         </form>
+        </div>
+        </div>
         );
   }
 });
@@ -216,12 +225,17 @@ let CommentList = React.createClass({
   render() {
     let comments = this.props.data.map(comment => {
       return (
-          <div key={comment.id}>
-          <div>
-          {comment.content} – {comment.user.name} –
-          {comment.date} – {comment.favourites} –
-          <a href="#" rel={comment.id} onClick={this.props.onFavourite}>fav</a> |
-          <a href="#" rel={comment.id} onClick={this.props.onUnFavourite}>unfav</a>
+          <div key={comment.id} className="panel panel-default">
+          <div className="panel-body">
+          {comment.content}
+          </div>
+          <div className="panel-footer">
+          {comment.user.name} – {comment.date}
+          <div className="pull-right">
+          <span className="badge">{comment.favourites}</span>
+          <a href="#" className="btn btn-default btn-xs" rel={comment.id} onClick={this.props.onFavourite}>Favourite</a>
+          <a href="#" className="btn btn-default btn-xs" rel={comment.id} onClick={this.props.onUnFavourite}>Unfavourite</a>
+          </div>
           </div>
           </div>
           );
@@ -253,6 +267,11 @@ let CommentForm = React.createClass({
   },
   render() {
     return (
+        <div className="panel panel-default">
+        <div className="panel-heading">
+        Add new comment
+        </div>
+        <div className="panel-body">
         <form className="itemForm" onSubmit={this.handleSubmit}>
         <input
         type="text"
@@ -262,6 +281,8 @@ let CommentForm = React.createClass({
         />
         <input type="submit" value="Post" />
         </form>
+        </div>
+        </div>
         );
   }
 });
@@ -370,17 +391,21 @@ let Notifications = React.createClass({
   },
   render() {
     let list = this.state.data.map(x => {
+      let link = `#/items/${x.comment.item.id}`;
       return (
-          <div key={x.id}>
-          "{x.comment.content}" on {x.comment.item.title}
-          by {x.comment.user.name}
+          <div key={x.id} className="panel panel-default">
+          <div className="panel-body">
+          "{x.comment.content}" on <a href={link}>{x.comment.item.title}</a> by {x.comment.user.name}
+          </div>
           </div>
           );
     });
     return (
         <div className="notifications">
-        <h4>Notifications</h4>
-        <a href="#" onClick={this.markAsRead}>mark all as read</a>
+        <h3 className="page-header">
+        Notifications
+        <a href="#" className="pull-right btn btn-default btn-sm" onClick={this.markAsRead}>mark all as read</a>
+        </h3>
         {list}
         </div>
         );
@@ -391,12 +416,24 @@ const App = React.createClass({
   render() {
     return (
         <div>
-        <a href="#/items"><h2>Items</h2></a>
-        <a href="#/users"><h2>Users</h2></a>
-        <div>
+        <nav className="navbar navbar-default navbar-static-top">
+        <div className="container">
+        <ul className="nav navbar-nav">
+        <li><a href="#/items">Items</a></li>
+        <li><a href="#/users">Users</a></li>
+        </ul>
+        </div>
+        </nav>
+        <div className="container">
+        <div className="row">
+        <div className="col-xs-8">
         {this.props.children}
         </div>
+        <div className="col-xs-4">
         <Notifications />
+        </div>
+        </div>
+        </div>
         </div>
         )
   }
