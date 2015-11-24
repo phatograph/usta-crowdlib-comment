@@ -34,13 +34,13 @@ Here is a list of steps to run the web client.
 
 1. Install [Allow-Control-Allow-Origin: *](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi) chrome extension.
 2. Run python local web server.
+    
+    ``` bash
+    usta-crowdlib-comment $ cd assets
 
-``` bash
-usta-crowdlib-comment $ cd assets
-
-usta-crowdlib-comment/assets $ python -m SimpleHTTPServer
-Serving HTTP on 0.0.0.0 port 8000 ...
-```
+    usta-crowdlib-comment/assets $ python -m SimpleHTTPServer
+    Serving HTTP on 0.0.0.0 port 8000 ...
+    ```
 
 3. Browse a web client on http://localhost:8000.
 
