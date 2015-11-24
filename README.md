@@ -44,6 +44,16 @@ Serving HTTP on 0.0.0.0 port 8000 ...
 
 3. Browse a web client on http://localhost:8000.
 
+## Available users
+
+```
+username:password
+
+pw:57
+sd:13
+sc:17
+```
+
 ## Requirements
 
 #### A Comment is posted by a User and can either be a new comment on a library catalogue item or a reply to a previous comment.
