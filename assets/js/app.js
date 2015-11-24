@@ -156,6 +156,24 @@ let ItemInfo = React.createClass({
       }.bind(this)
     });
   },
+  onUnFavourite(e) {
+    e.preventDefault();
+
+    $.ajax({
+      url: `http://localhost:9998/comments/${e.target.rel}/unfavourite`,
+      dataType: 'json',
+      contentType: 'application/json',
+      type: 'DELETE',
+      success: data => {
+        if (data) {
+          this.loadItemsFromServer()
+        }
+      }.bind(this),
+      error: (xhr, status, err) => {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
   getInitialState() {
     return {
       url: 'http://localhost:9998/items',
@@ -172,7 +190,7 @@ let ItemInfo = React.createClass({
     return (
         <div className="itemInfo">
         <h2>{this.state.data.item.title}</h2>
-        <CommentList onFavourite={this.onFavourite} data={this.state.data.comments} />
+        <CommentList onFavourite={this.onFavourite} onUnFavourite={this.onUnFavourite} data={this.state.data.comments} />
         <CommentForm onItemSubmit={this.handleItemSubmit} />
         </div>
         );
@@ -181,12 +199,13 @@ let ItemInfo = React.createClass({
 
 let CommentList = React.createClass({
   render() {
-    let comments = this.props.data.map((comment) => (
+    let comments = this.props.data.map(comment => (
           <div key={comment.id}>
           <div>
           {comment.content} – {comment.user.name} –
           {comment.date} – {comment.favourites} –
-          <a href="#" rel={comment.id} onClick={this.props.onFavourite}>fav</a>
+          <a href="#" rel={comment.id} onClick={this.props.onFavourite}>fav</a> |
+          <a href="#" rel={comment.id} onClick={this.props.onUnFavourite}>unfav</a>
           </div>
           </div>
           ));
@@ -232,11 +251,11 @@ let CommentForm = React.createClass({
 const App = React.createClass({
   render() {
     return (
-      <div>
+        <div>
         <a href="#/items"><h1>App</h1></a>
         {this.props.children}
-      </div>
-    )
+        </div>
+        )
   }
 })
 
@@ -244,10 +263,10 @@ let Route = window.ReactRouter.Route;
 let Router = window.ReactRouter.Router;
 
 ReactDOM.render((
-  <Router>
-    <Route path="/" component={App}>
+      <Router>
+      <Route path="/" component={App}>
       <Route path="/items" component={ItemBox} />
       <Route path="items/:id" component={ItemInfo} />
-    </Route>
-  </Router>
-), document.getElementById('content'));
+      </Route>
+      </Router>
+      ), document.getElementById('content'));

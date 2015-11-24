@@ -98,7 +98,7 @@ public class CommentController {
         Comment c = InMemComment.get(id);
 
         if (c.unFavourite(InMemUser.getCurrentUser())) {
-            return Response.ok().build();
+            return Response.ok(g.toJson(true)).build();
         }
 
         return Response.status(Response.Status.FORBIDDEN).build();
