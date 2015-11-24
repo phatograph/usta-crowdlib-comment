@@ -127,6 +127,17 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
+      <library name="Gradle: org.commonjava.googlecode.markdown4j:markdown4j:2.2-cj-1.0">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.commonjava.googlecode.markdown4j/markdown4j/2.2-cj-1.0/ba35b052c48261a17e94ae5c31e8e9ad9b9f4d2c/markdown4j-2.2-cj-1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.commonjava.googlecode.markdown4j/markdown4j/2.2-cj-1.0/d0e2ed638434195fdd884bca314eab57e23b9a76/markdown4j-2.2-cj-1.0-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
       <library name="Gradle: javax.ws.rs:javax.ws.rs-api:2.0.1">
         <CLASSES>
           <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.ws.rs/javax.ws.rs-api/2.0.1/104e9c2b5583cfcfeac0402316221648d6d8ea6b/javax.ws.rs-api-2.0.1.jar!/" />
@@ -476,6 +487,5 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="library" name="markdown4j-2.2" level="project" />
   </component>
 </module>
