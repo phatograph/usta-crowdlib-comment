@@ -248,11 +248,69 @@ let CommentForm = React.createClass({
   }
 });
 
+let UserBox = React.createClass({
+  loadItemsFromServer() {
+    $.ajax({
+      url: `${this.state.url}`,
+      dataType: 'json',
+      cache: false,
+      success: data => {
+        this.setState({data: data});
+      }.bind(this),
+      error: (xhr, status, err) => {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  setActive(e) {
+    e.preventDefault();
+    $.ajax({
+      url: `${this.state.url}/${e.target.rel}/act`,
+      dataType: 'json',
+      contentType: 'application/json',
+      type: 'PUT',
+      success: data => {
+        console.log(data);
+        if (data) {
+          this.loadItemsFromServer()
+        }
+      }.bind(this),
+      error: (xhr, status, err) => {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  getInitialState() {
+    return {
+      url: 'http://localhost:9998/users',
+      data: []
+    };
+  },
+  componentDidMount() {
+    this.loadItemsFromServer();
+  },
+  render() {
+    let users = this.state.data.map(user => (
+          <div key={user.id}>
+          {user.name} {user.surname} |
+          <a href="#" rel={user.id} onClick={this.setActive}>make active</a> |
+          </div>
+          ));
+    return (
+        <div className="itemInfo">
+        <h1>Users</h1>
+        {users}
+        </div>
+        );
+  }
+});
+
 const App = React.createClass({
   render() {
     return (
         <div>
-        <a href="#/items"><h1>App</h1></a>
+        <a href="#/items"><h2>Items</h2></a>
+        <a href="#/users"><h2>Users</h2></a>
         {this.props.children}
         </div>
         )
@@ -265,8 +323,9 @@ let Router = window.ReactRouter.Router;
 ReactDOM.render((
       <Router>
       <Route path="/" component={App}>
-      <Route path="/items" component={ItemBox} />
+      <Route path="items" component={ItemBox} />
       <Route path="items/:id" component={ItemInfo} />
+      <Route path="users" component={UserBox} />
       </Route>
       </Router>
       ), document.getElementById('content'));
