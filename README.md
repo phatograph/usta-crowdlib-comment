@@ -1,3 +1,6 @@
+This project is kept at https://bitbucket.org/phatograph/usta-crowdlib-comment.
+Please visit to view a better formatted README.
+
 ## Introduction
 
 To run the unit test, cobertura code coverage and checkstyle tasks use the 
