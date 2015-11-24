@@ -232,7 +232,11 @@ let ItemInfo = React.createClass({
         <div className="itemInfo">
         <h2>{this.state.data.item.title}</h2>
         <CommentList onFavourite={this.onFavourite} onUnFavourite={this.onUnFavourite} data={this.state.data.comments} />
-        <a href="#" onClick={this.loadMoreComments} className={this.state.data.commentsMore > 0 ? '' : 'hidden'}>load more</a>
+        <div className={this.state.data.commentsMore > 0 ? 'panel panel-info load-more' : 'hidden'}>
+        <div className="panel-body text-center">
+        <a href="#" onClick={this.loadMoreComments}>load more</a>
+        </div>
+        </div>
         <CommentForm onItemSubmit={this.handleItemSubmit} />
         </div>
         );
@@ -244,9 +248,7 @@ let CommentList = React.createClass({
     let comments = this.props.data.map(comment => {
       return (
           <div key={comment.id} className="panel panel-default">
-          <div className="panel-body">
-          {comment.content}
-          </div>
+          <div className="panel-body" dangerouslySetInnerHTML={{__html: comment.content}} />
           <div className="panel-footer">
           {comment.user.name} – {comment.date}
           <div className="pull-right">

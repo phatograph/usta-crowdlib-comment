@@ -4,3 +4,7 @@
 .hidden {
   display: none;
 }
+
+.load-more a {
+  display: block;
+}

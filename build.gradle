@@ -81,6 +81,7 @@ dependencies {
     compile 'com.h2database:h2:1.4.190'
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'com.thoughtworks.xstream:xstream:1.4.8'
+    compile 'org.commonjava.googlecode.markdown4j:markdown4j:2.2-cj-1.0'
     testCompile 'org.codehaus.groovy:groovy-all:2.3.10'
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.3'
 }
