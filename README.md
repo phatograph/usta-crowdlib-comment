@@ -58,16 +58,16 @@ sc:17
 
 #### A Comment is posted by a User and can either be a new comment on a library catalogue item or a reply to a previous comment.
 
-Comments can be added to an item.
+Comments can be added to an item. Markdown is supported as well.
 
 ``` bash
-$ curl -H "Content-Type: application/json" -X POST -d '{"content":"New comment!"}' http://localhost:9998/items/0/reply -v -s
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X POST -d '{"content":"New **great** comment!"}' http://localhost:9998/items/0/reply -v -s
 ```
 
 Or also to another comment.
 
 ``` bash
-$ curl -H "Content-Type: application/json" -X POST -d '{"content":"Another new comment!"}' http://localhost:9998/comments/604/reply -v -s
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X POST -d '{"content":"Another new comment!"}' http://localhost:9998/comments/604/reply -v -s
 ```
 
 #### Comments are timestamped.
@@ -75,7 +75,7 @@ $ curl -H "Content-Type: application/json" -X POST -d '{"content":"Another new c
 Posting a comment will introduce the current timestamp.
 
 ``` bash
-$ curl -H "Content-Type: application/json" -X POST -d '{"content":"New comment!"}' http://localhost:9998/items/0/reply -v -s
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X POST -d '{"content":"New comment!"}' http://localhost:9998/items/0/reply -v -s
 {
   "date": "Nov 23, 2015 5:35:37 PM",
   "itemId": 0,
@@ -98,7 +98,7 @@ To get the paging to work, one needs to specify `limit` and/or `from` query stri
 For exmaple, consider this following request.
 
 ``` bash
-$ curl -H "Content-Type: application/json" http://localhost:9998/items/1\?limit\=2\&from\=3 -v -s
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" http://localhost:9998/items/1\?limit\=2\&from\=3 -v -s
 ```
 
 This means you're getting an information of comment id `1`, with its 2 comments,
@@ -109,13 +109,13 @@ starting from the 3rd one.
 To favourite a comment.
 
 ``` bash
-$ curl -H "Content-Type: application/json" -X POST http://localhost:9998/comments/1/favourite -v -s
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X POST http://localhost:9998/comments/1/favourite -v -s
 ```
 
 To get a user favoured comments.
 
 ``` bash
-$ curl -H "Content-Type: application/json" http://localhost:9998/users/0/favourites -v -s
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" http://localhost:9998/users/0/favourites -v -s
 ```
 
 #### For any comments it should be possible to retrieve the replies to this comment including replies to replies and so on.
@@ -124,7 +124,7 @@ To retrieve nested comments, do so as in the following which retrieves nested co
 of comment id `1`.
 
 ``` bash
-$ curl -H "Content-Type: application/json" http://localhost:9998/comments/1 -v -s 
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" http://localhost:9998/comments/1 -v -s 
 ```
 
 #### Users should be able to follow a bibliographic item’s comments. Any new comments posted on a bibliographic item will show up in a list of notifications.
@@ -133,13 +133,13 @@ To follow an item, do so, as in the following which follows
 item id `1`.
 
 ``` bash
-$ curl -H "Content-Type: application/json" -X POST http://localhost:9998/items/1/follow -v -s
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X POST http://localhost:9998/items/1/follow -v -s
 ```
 
 Which following items can be retrieved as follow.
 
 ``` bash
-$ curl -H "Content-Type: application/json" http://localhost:9998/users/followings -v -s 
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" http://localhost:9998/users/followings -v -s 
 [
   ...,
   {
@@ -169,25 +169,25 @@ active user to another user. Because if you comment on the item
 yourself you won't get a notification.
 
 ``` bash
-$ curl -H "Content-Type: application/json" -X PUT http://localhost:9998/users/1/act -v -s 
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X PUT http://localhost:9998/users/1/act -v -s 
 ```
 
 And then make a comment.
 
 ```
-$ curl -H "Content-Type: application/json" -X POST -d '{"content":"Another new comment!"}' http://localhost:9998/items/1/reply -v -s 
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X POST -d '{"content":"Another new comment!"}' http://localhost:9998/items/1/reply -v -s 
 ```
 
 Then change the active user back.
 
 ``` bash
-$ curl -H "Content-Type: application/json" -X PUT http://localhost:9998/users/0/act -v -s 
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X PUT http://localhost:9998/users/0/act -v -s 
 ```
 
 Then check for a new notification.
 
 ``` bash
-$ curl -H "Content-Type: application/json" http://localhost:9998/users/notifications -s
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" http://localhost:9998/users/notifications -s
 [
   {
     "id": 604,
@@ -231,13 +231,13 @@ $ curl -H "Content-Type: application/json" http://localhost:9998/users/notificat
 A user can mark all notification as read as follow.
 
 ``` bash
-$ curl -H "Content-Type: application/json" -X PUT http://localhost:9998/users/notifications -s
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X PUT http://localhost:9998/users/notifications -s
 ```
 
 Re-check the notification.
 
 ``` bash
-$ curl -H "Content-Type: application/json" http://localhost:9998/users/notifications -s
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" http://localhost:9998/users/notifications -s
 []
 ```
 
@@ -248,7 +248,7 @@ favourites count will also be presented. The next example
 is a top-level comment.
 
 ``` bash
-$ curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" http://localhost:9998/items/0 -s
 {
   "item": {
     "id": 0,
@@ -284,7 +284,7 @@ $ curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s
 Another example for nested comments (from comment id `0`).
 
 ``` bash
-$ curl -H "Content-Type: application/json" http://localhost:9998/comments/0 -s
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" http://localhost:9998/comments/0 -s
 [
   {
     "date": "Nov 23, 2015 5:52:44 PM",
@@ -322,14 +322,14 @@ $ curl -H "Content-Type: application/json" http://localhost:9998/comments/0 -s
 User can remove a comment as follow.
 
 ``` bash
-$ curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/comments/0 -s
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X DELETE http://localhost:9998/comments/0 -s
 ```
 
 It will be displayed with a different message, but the actual content is
 still kept.
 
 ``` bash
-$ curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" http://localhost:9998/items/0 -s
 {
   "item": {
     "id": 0,
@@ -365,16 +365,16 @@ $ curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s
 User can also restore their comment as follow.
 
 ``` bash
-$ curl -H "Content-Type: application/json" -X PUT http://localhost:9998/comments/0/restore -s 
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X PUT http://localhost:9998/comments/0/restore -s 
 ```
 
 Moreover, a non-admin user cannot remove other's comments,
 which will result in 403 Forbidden.
 
 ``` bash
-$ curl -H "Content-Type: application/json" -X PUT http://localhost:9998/users/1/act -v -s
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X PUT http://localhost:9998/users/1/act -v -s
 
-$ curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/comments/0 -s -v
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X DELETE http://localhost:9998/comments/0 -s -v
 *   Trying ::1...
 * connect to ::1 port 9998 failed: Connection refused
 *   Trying 127.0.0.1...
@@ -400,13 +400,13 @@ $ curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/comme
 An admin uses the same request to remove other's comment.
 
 ``` bash
-$ curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/comments/1 -s
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X DELETE http://localhost:9998/comments/1 -s
 ```
 
 Which would result in a moderator message.
 
 ``` bash
-$ curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s
+$ curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" http://localhost:9998/items/0 -s
 {
   "item": {
     "id": 0,
@@ -446,13 +446,13 @@ $ curl -H "Content-Type: application/json" http://localhost:9998/items/0 -s
 ##### Get all users
 
 ``` bash
-curl -H "Content-Type: application/json" http://localhost:9998/users
+curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" http://localhost:9998/users
 ```
 
 ##### Get a single user
 
 ``` bash
-curl -H "Content-Type: application/json" http://localhost:9998/users/{user_id}
+curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" http://localhost:9998/users/{user_id}
 ```
 
 ##### Get a user favoured comments
@@ -460,31 +460,31 @@ curl -H "Content-Type: application/json" http://localhost:9998/users/{user_id}
 Note that you can see other's as well by specifying an id.
 
 ``` bash
-curl -H "Content-Type: application/json" http://localhost:9998/users/{user_id}/favourites
+curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" http://localhost:9998/users/{user_id}/favourites
 ```
 
 ##### Change current active user
 
 ``` bash
-curl -H "Content-Type: application/json" -X PUT http://localhost:9998/users/{user_id}/act  
+curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X PUT http://localhost:9998/users/{user_id}/act  
 ```
 
 ##### Get followings items
 
 ``` bash
-curl -H "Content-Type: application/json" http://localhost:9998/users/followings
+curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" http://localhost:9998/users/followings
 ```
 
 ##### Get notifications
 
 ``` bash
-curl -H "Content-Type: application/json" http://localhost:9998/users/notifications
+curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" http://localhost:9998/users/notifications
 ```
 
 ##### Mark notifications as read
 
 ``` bash
-curl -H "Content-Type: application/json" -X PUT http://localhost:9998/users/notifications
+curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X PUT http://localhost:9998/users/notifications
 ```
 
 ### Items
@@ -492,13 +492,13 @@ curl -H "Content-Type: application/json" -X PUT http://localhost:9998/users/noti
 ##### Get all items
 
 ``` bash
-curl -H "Content-Type: application/json" http://localhost:9998/items
+curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" http://localhost:9998/items
 ```
 
 ##### Get a single item
 
 ``` bash
-curl -H "Content-Type: application/json" http://localhost:9998/items/{item_id}
+curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" http://localhost:9998/items/{item_id}
 ```
 
 ##### Create a new item
@@ -507,25 +507,25 @@ Note that once you create an item, you will be automatically
 follow that item.
 
 ``` bash
-curl -H "Content-Type: application/json" -X POST -d '{"content":"Turkish goes to the Moon"}' http://localhost:9998/items
+curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X POST -d '{"content":"Turkish goes to the Moon"}' http://localhost:9998/items
 ```
 
 ##### Post a comment to an item
 
 ``` bash
-curl -H "Content-Type: application/json" -X POST -d '{"content":"New comment"}' http://localhost:9998/items/{item_id}/reply
+curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X POST -d '{"content":"New comment"}' http://localhost:9998/items/{item_id}/reply
 ```
 
 ##### Follow an item
 
 ``` bash
-curl -H "Content-Type: application/json" -X POST http://localhost:9998/items/{item_id}/follow
+curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X POST http://localhost:9998/items/{item_id}/follow
 ```
 
 ##### Unfollow an item
 
 ``` bash
-curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/items/{item_id}/unfollow
+curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X DELETE http://localhost:9998/items/{item_id}/unfollow
 ```
 
 ### Comments
@@ -535,7 +535,7 @@ curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/items/{
 Note that this will only return nested comments, not the comment itself.
 
 ``` bash
-curl -H "Content-Type: application/json" http://localhost:9998/comments/{comment_id}
+curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" http://localhost:9998/comments/{comment_id}
 ```
 
 ##### Post a comment to another comment
@@ -543,31 +543,31 @@ curl -H "Content-Type: application/json" http://localhost:9998/comments/{comment
 Aka create a nested comment.
 
 ``` bash
-curl -H "Content-Type: application/json" -X POST -d '{"content":"New comment"}' http://localhost:9998/comments/{comment_id}/reply
+curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X POST -d '{"content":"New comment"}' http://localhost:9998/comments/{comment_id}/reply
 ```
 
 ##### Remove a comment
 
 ``` bash
-curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/comments/{comment_id}
+curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X DELETE http://localhost:9998/comments/{comment_id}
 ```
 
 ##### Restore a comment
 
 ``` bash
-curl -H "Content-Type: application/json" -X PUT http://localhost:9998/comments/{comment_id}/restore
+curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X PUT http://localhost:9998/comments/{comment_id}/restore
 ```
 
 ##### Favourite a comment
 
 ``` bash
-curl -H "Content-Type: application/json" -X POST http://localhost:9998/comments/{comment_id}/favourite
+curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X POST http://localhost:9998/comments/{comment_id}/favourite
 ```
 
 ##### Unfavourite a comment
 
 ``` bash
-curl -H "Content-Type: application/json" -X DELETE http://localhost:9998/comments/{comment_id}/unfavourite
+curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X DELETE http://localhost:9998/comments/{comment_id}/unfavourite
 ```
 
 ## CORS

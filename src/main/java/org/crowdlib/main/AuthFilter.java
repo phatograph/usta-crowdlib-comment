@@ -46,6 +46,7 @@ public class AuthFilter implements ContainerRequestFilter, ContainerResponseFilt
     public void filter(ContainerRequestContext requestContext) throws IOException {
         // Get the authentication passed in HTTP headers parameters
         String authHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
+        System.out.println(authHeader);
         if (authHeader == null) {
             throw UNAUHTORISED;
         }
