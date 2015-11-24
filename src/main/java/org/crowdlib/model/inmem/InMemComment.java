@@ -1,6 +1,7 @@
 package org.crowdlib.model.inmem;
 
 import org.crowdlib.model.*;
+import org.markdown4j.Markdown4jProcessor;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -170,8 +171,15 @@ public class InMemComment implements Comment {
     }
 
     public static Comment add(String content, User user, Item item, Comment comment) {
+        String md;
+        try {
+            md = new Markdown4jProcessor().process(content);
+        } catch (Exception e) {
+            md = content;
+        }
+
         Comment c = new InMemComment(
-                content,
+                md,
                 user,
                 item,
                 comment

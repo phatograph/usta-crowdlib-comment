@@ -4,6 +4,9 @@ let ItemBox = React.createClass({
       url: this.state.url,
       dataType: 'json',
       cache: false,
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader ("Authorization", `Basic ${btoa("pw:57")}`);
+      },
       success: data => {
         this.setState({data: data});
       }.bind(this),
@@ -17,6 +20,9 @@ let ItemBox = React.createClass({
       url: this.state.url,
       dataType: 'json',
       contentType: 'application/json',
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader ("Authorization", `Basic ${btoa("pw:57")}`);
+      },
       type: 'POST',
       data: JSON.stringify(item),
       success: data => {
@@ -124,6 +130,9 @@ let ItemInfo = React.createClass({
     $.ajax({
       url: `${this.state.url}/${this.props.params.id}?from=${from}&limit=20`,
       dataType: 'json',
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader ("Authorization", `Basic ${btoa("pw:57")}`);
+      },
       cache: false,
       success: data => {
         this.setState((previousState, currentProps) => {
@@ -140,6 +149,9 @@ let ItemInfo = React.createClass({
     $.ajax({
       url: `${this.state.url}/${this.props.params.id}/reply`,
       dataType: 'json',
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader ("Authorization", `Basic ${btoa("pw:57")}`);
+      },
       contentType: 'application/json',
       type: 'POST',
       data: JSON.stringify(x),
@@ -157,6 +169,9 @@ let ItemInfo = React.createClass({
     $.ajax({
       url: `http://localhost:9998/comments/${e.target.rel}/favourite`,
       dataType: 'json',
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader ("Authorization", `Basic ${btoa("pw:57")}`);
+      },
       contentType: 'application/json',
       type: 'POST',
       success: data => {
@@ -179,6 +194,9 @@ let ItemInfo = React.createClass({
       url: `http://localhost:9998/comments/${e.target.rel}/unfavourite`,
       dataType: 'json',
       contentType: 'application/json',
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader ("Authorization", `Basic ${btoa("pw:57")}`);
+      },
       type: 'DELETE',
       success: data => {
         let comment = this.state.data.comments.find(x => {
@@ -292,6 +310,9 @@ let UserBox = React.createClass({
     $.ajax({
       url: `${this.state.url}`,
       dataType: 'json',
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader ("Authorization", `Basic ${btoa("pw:57")}`);
+      },
       cache: false,
       success: data => {
         this.setState({data: data});
@@ -306,6 +327,9 @@ let UserBox = React.createClass({
     $.ajax({
       url: `${this.state.url}/${e.target.rel}/act`,
       dataType: 'json',
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader ("Authorization", `Basic ${btoa("pw:57")}`);
+      },
       contentType: 'application/json',
       type: 'PUT',
       success: data => {
@@ -351,6 +375,9 @@ let Notifications = React.createClass({
     $.ajax({
       url: this.state.url,
       dataType: 'json',
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader ("Authorization", `Basic ${btoa("pw:57")}`);
+      },
       cache: false,
       success: data => {
         this.setState({data: data});
@@ -366,6 +393,9 @@ let Notifications = React.createClass({
     $.ajax({
       url: this.state.url,
       dataType: 'json',
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader ("Authorization", `Basic ${btoa("pw:57")}`);
+      },
       cache: false,
       type: 'PUT',
       success: data => {

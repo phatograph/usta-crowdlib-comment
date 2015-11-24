@@ -5,27 +5,28 @@ import java.security.Principal;
 import java.util.HashMap;
 
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.container.PreMatching;
+import javax.ws.rs.container.*;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
+import org.crowdlib.model.User;
+import org.crowdlib.model.inmem.InMemUser;
 import org.glassfish.jersey.internal.util.Base64;
 
 /**
  * Simple request filter to implement basic authentication on the basis of an in-memory set of user
  * credentials that are statically defined. You may want to extend this.
- *
+ * <p/>
  * For information on filters see:
  * https://jersey.java.net/documentation/latest/filters-and-interceptors.html
  *
  * @author Alex Voss - alex.voss@st-andrews.ac.uk
  */
 @PreMatching
-public class AuthFilter implements ContainerRequestFilter {
+public class AuthFilter implements ContainerRequestFilter, ContainerResponseFilter {
 
     private final HashMap<String, String> accounts = new HashMap<String, String>();
 
@@ -33,9 +34,6 @@ public class AuthFilter implements ContainerRequestFilter {
      * Constructor sets up the in-memory user list.
      */
     public AuthFilter() {
-        accounts.put("student1", "whoopey");
-        accounts.put("student2", "password");
-        accounts.put("lecturer", "secret");
     }
 
     // Exception thrown if user is unauthorized.
@@ -43,10 +41,9 @@ public class AuthFilter implements ContainerRequestFilter {
             Response.status(Status.UNAUTHORIZED)
                     .header(HttpHeaders.WWW_AUTHENTICATE, "Basic realm=\"realm\"")
                     .entity("Page requires login.").build());
-    
+
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-
         // Get the authentication passed in HTTP headers parameters
         String authHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
         if (authHeader == null) {
@@ -56,15 +53,25 @@ public class AuthFilter implements ContainerRequestFilter {
         authHeader = authHeader.replaceFirst("[Bb]asic ", "");
         final String userCreds = Base64.decodeAsString(authHeader);
 
-        for (final String accountName : accounts.keySet()) {
-            final String credential = accountName + ":" + accounts.get(accountName);
+        for (User u : InMemUser.getAll()) {
+            final String credential = u.getUsername() + ":" + u.getPassword();
             if (userCreds.equals(credential)) {
-                final SecurityContext sc = new MySecurityContext(accountName);
+                final SecurityContext sc = new MySecurityContext(u.getUsername());
                 requestContext.setSecurityContext(sc);
                 return;
             }
         }
+
         throw UNAUHTORISED;
+    }
+
+    @Override
+    public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
+        MultivaluedMap<String, Object> headers = responseContext.getHeaders();
+
+        headers.add("Access-Control-Allow-Origin", "*");
+        headers.add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS");
+        headers.add("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
     }
 
     /**

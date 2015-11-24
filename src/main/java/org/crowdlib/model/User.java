@@ -45,6 +45,9 @@ public interface User {
      */
     User setTitle(String title);
 
+    String getUsername();
+    String getPassword();
+
     ArrayList<Item> getItems();
 
     boolean getIsAdmin();

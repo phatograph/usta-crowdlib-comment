@@ -33,12 +33,13 @@ public final class Main {
      * Create a Grizzly server and register the classes that make up this application.
      */
     protected static HttpServer createServer() throws IOException {
+        bootstrapping();
         final ResourceConfig rc = new ResourceConfig();
         rc.packages("org.crowdlib.main");
 //        rc.register(MyResource.class);
 //        rc.register(UserController.class);
-//        rc.register(AuthFilter.class);
-        rc.register(CORSResponseFilter.class);
+//        rc.register(CORSResponseFilter.class);
+        rc.register(AuthFilter.class);
         return GrizzlyHttpServerFactory.createHttpServer(BASE_URI, rc);
     }
 
@@ -46,7 +47,6 @@ public final class Main {
      * main() method starts up Grizzly server, waits for user input, then shuts it down.
      */
     public static void main(final String[] args) throws IOException {
-        bootstrapping();
         final HttpServer httpServer = createServer();
         System.out.println("Starting grizzly2...");
         httpServer.start();
@@ -56,15 +56,15 @@ public final class Main {
         httpServer.shutdownNow();
     }
 
-    static void bootstrapping() {
-        User u1 = new InMemUser("Phat", "Wangrungarun").setIsAdmin(true);
-        User u2 = new InMemUser("Sebastian", "Duque");
-        User u3 = new InMemUser("Suhyun", "Cha");
+    public static void bootstrapping() {
+        User u1 = new InMemUser("Phat", "Wangrungarun", "pw", "57").setIsAdmin(true);
+        User u2 = new InMemUser("Sebastian", "Duque", "sd", "13");
+        User u3 = new InMemUser("Suhyun", "Cha", "sc", "17");
         InMemUser.setCurrentUser(u1);
 
         Item i1 = InMemItem.add("Lord of the Rings", u1);
 
-        Comment c1 = InMemComment.add("Outstanding.", u1, i1, null);
+        Comment c1 = InMemComment.add("*Outstanding.*", u1, i1, null);
         InMemComment.add("Wonderful.", u2, i1, null);
         InMemComment.add("Indeed.", u2, i1, c1);
         InMemComment.add("Totally agreed.", u3, i1, c1);

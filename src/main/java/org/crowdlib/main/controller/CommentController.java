@@ -11,6 +11,7 @@ import org.crowdlib.model.inmem.InMemComment;
 import org.crowdlib.model.inmem.InMemFavourite;
 import org.crowdlib.model.inmem.InMemItem;
 import org.crowdlib.model.inmem.InMemUser;
+import org.markdown4j.Markdown4jProcessor;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

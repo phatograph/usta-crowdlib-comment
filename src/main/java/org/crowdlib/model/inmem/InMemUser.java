@@ -14,6 +14,8 @@ public class InMemUser implements User {
     private String surname;
     private String title;
     private boolean isAdmin;
+    private String username;
+    private String password;
 
     private static int count = 0;
     private static ArrayList<User> list = new ArrayList();
@@ -22,11 +24,13 @@ public class InMemUser implements User {
     public InMemUser() {
     }
 
-    public InMemUser(String name, String surname) {
+    public InMemUser(String name, String surname, String username, String password) {
         this.id = count++;
         this.name = name;
         this.surname = surname;
         this.isAdmin = false;
+        this.username = username;
+        this.password = password;
 
         InMemUser.list.add(this);
     }
@@ -67,6 +71,16 @@ public class InMemUser implements User {
     public User setTitle(String title) {
         this.title = title;
         return this;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override

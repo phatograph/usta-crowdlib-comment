@@ -25,6 +25,25 @@ gradle check
 open build/reports/checkstyle/main.html
 ```
 
+## Using Web Client
+
+I also provide here a web client, which is a single page application to exercise
+the API. But I tried using a [static handler](https://bitbucket.org/avoss/cs5031-2015-back/src/374948e8e2e40a4b272c042a6ced24374847b740/src/main/java/org/crowdlib/main/Main.java?at=master&fileviewer=file-view-default)
+but it did not work on me. So I found another solution to run this even they're on different domains.
+Here is a list of steps to run the web client.
+
+1. Install [Allow-Control-Allow-Origin: *](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi) chrome extension.
+2. Run python local web server.
+
+``` bash
+usta-crowdlib-comment $ cd assets
+
+usta-crowdlib-comment/assets $ python -m SimpleHTTPServer
+Serving HTTP on 0.0.0.0 port 8000 ...
+```
+
+3. Browse a web client on http://localhost:8000.
+
 ## Requirements
 
 #### A Comment is posted by a User and can either be a new comment on a library catalogue item or a reply to a previous comment.
