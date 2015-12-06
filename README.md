@@ -510,7 +510,7 @@ Note that once you create an item, you will be automatically
 follow that item.
 
 ``` bash
-curl -H "Content-Type: application/json" -H "Authorization: Basic cHc6NTc=" -X POST -d '{"content":"Turkish goes to the Moon"}' http://localhost:9998/items
+curl -h "content-type: application/json" -h "authorization: basic chc6ntc=" -x post -d '{"title":"turkish goes to the moon"}' http://localhost:9998/items
 ```
 
 ##### Post a comment to an item
